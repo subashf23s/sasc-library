@@ -43,11 +43,11 @@ export default function Header() {
               Home
             </Link>
              <Link
-              to="/demo/start/server-funcs"
+              to="/books"
               activeProps={{ className: 'text-primary' }}
               inactiveProps={{ className: 'text-muted-foreground hover:text-primary transition-colors' }}
             >
-              Demos
+              Books
             </Link>
           </nav>
         </div>

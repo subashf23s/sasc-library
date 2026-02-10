@@ -1,5 +1,5 @@
 
-import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState } from 'react'
 import {
   Book,
@@ -14,10 +14,7 @@ import { Input } from '@/components/ui/input'
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
-  CardHeader,
-  CardTitle,
 } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 
@@ -27,7 +24,6 @@ export const Route = createFileRoute('/')({
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('')
-  const navigate = useNavigate()
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
@@ -122,7 +118,7 @@ function App() {
 
           <div className="flex flex-wrap justify-center gap-4 pt-4">
              <Button variant="outline" asChild>
-                <Link to="/demo/start/server-funcs">Browse Collection</Link>
+                <Link to="/books">Browse Collection</Link>
              </Button>
              <Button variant="ghost" asChild>
                 <Link to="/login">My Account <ArrowRight className="ml-2 h-4 w-4"/></Link>
@@ -171,7 +167,9 @@ function App() {
                 <h2 className="text-3xl font-bold tracking-tight">Featured Books</h2>
                 <p className="text-muted-foreground mt-1">Curated picks for this month.</p>
             </div>
-            <Button variant="ghost" className="text-primary hover:text-primary/80">View All</Button>
+            <Button variant="ghost" className="text-primary hover:text-primary/80" asChild>
+                <Link to="/books">View All</Link>
+            </Button>
         </div>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -196,7 +194,9 @@ function App() {
                 <p className="text-sm text-muted-foreground">{book.author}</p>
               </CardContent>
               <CardFooter className="p-4 pt-0">
-                <Button className="w-full" variant="secondary" size="sm">Details</Button>
+                <Button asChild className="w-full" variant="secondary" size="sm">
+                    <Link to={`/books/${book.id}`}>Details</Link>
+                </Button>
               </CardFooter>
             </Card>
           ))}
@@ -231,7 +231,9 @@ function App() {
                 ))}
              </div>
              <div className="mt-8 text-center">
-                 <Button variant="outline">View Full Catalog</Button>
+                 <Button variant="outline" asChild>
+                    <Link to="/books">View Full Catalog</Link>
+                 </Button>
              </div>
          </div>
       </section>

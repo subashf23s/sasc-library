@@ -35,18 +35,16 @@ function SignUpPage() {
         email,
         password,
         name,
-        fetchOptions: {
-            onResponse: () => {
-                setLoading(false)
-            },
-            onRequest: () => {
-                setLoading(true)
-            },
-            onError: (ctx) => {
-                setError(ctx.error.message)
-            }
-        },
     }, {
+        onRequest: () => {
+            setLoading(true)
+        },
+        onResponse: () => {
+            setLoading(false)
+        },
+        onError: (ctx) => {
+            setError(ctx.error.message)
+        },
         onSuccess: () => {
              navigate({ to: '/' })
         }

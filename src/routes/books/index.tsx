@@ -79,12 +79,12 @@ function BooksPage() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredBooks.map((book: Book) => (
-            <Card key={book.id} className="overflow-hidden flex flex-col h-full hover:shadow-md transition-shadow">
-              <div className="relative aspect-[2/3] overflow-hidden bg-muted group">
+            <Card key={book.id} className="overflow-hidden flex flex-col hover:shadow-md transition-shadow pt-0">
+              <div className="relative overflow-hidden bg-muted group">
                  <img
                   src={book.cover}
                   alt={book.title}
-                  className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
+                  className="object-cover w-full h-40 transition-transform duration-300 group-hover:scale-105"
                 />
                  <Badge
                     variant={book.status === 'Available' ? 'default' : 'secondary'}
@@ -93,7 +93,7 @@ function BooksPage() {
                     {book.status}
                 </Badge>
               </div>
-              <CardContent className="flex-1 p-4">
+              <CardContent className="flex-1 px-4 pt-1">
                 <div className="flex justify-between items-start gap-2 mb-2">
                     <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">{book.category}</p>
                     <div className="flex items-center text-yellow-500 text-xs">
@@ -103,7 +103,7 @@ function BooksPage() {
                 <h3 className="font-semibold text-lg line-clamp-1 mb-1" title={book.title}>{book.title}</h3>
                 <p className="text-sm text-muted-foreground">{book.author}</p>
               </CardContent>
-              <CardFooter className="p-4 pt-0">
+              <CardFooter className="px-4 pt-0">
                 <Button asChild className="w-full" variant="secondary">
                   <Link to="/books/$bookId" params={{ bookId: book.id }}>View Details</Link>
                 </Button>

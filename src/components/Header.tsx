@@ -35,13 +35,6 @@ export default function Header() {
             <span>SASC Library</span>
           </Link>
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
-            <Link
-              to="/"
-              activeProps={{ className: 'text-primary' }}
-              inactiveProps={{ className: 'text-muted-foreground hover:text-primary transition-colors' }}
-            >
-              Home
-            </Link>
              <Link
               to="/books"
               activeProps={{ className: 'text-primary' }}

@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet, Link } from '@tanstack/react-router'
-import { requireAuth } from '@/lib/auth'
+import { authMiddleware, requireAuth } from '@/lib/auth'
 import { LayoutDashboard, BookOpen, User } from 'lucide-react'
 
 export const Route = createFileRoute('/dashboard')({
@@ -8,6 +8,9 @@ export const Route = createFileRoute('/dashboard')({
     return { user }
   },
   component: DashboardLayout,
+  server:{
+    middleware: [authMiddleware]
+  }
 })
 
 function DashboardLayout() {

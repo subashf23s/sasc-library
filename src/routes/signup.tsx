@@ -14,6 +14,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { supabase } from '@/lib/supabase'
 import { requireGuest } from '@/lib/auth'
+import { toast } from 'sonner'
 
 export const Route = createFileRoute('/signup')({
   beforeLoad: () => requireGuest(),
@@ -21,24 +22,29 @@ export const Route = createFileRoute('/signup')({
 })
 
 function SignUpPage() {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [formData,setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+  })
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
   const navigate = useNavigate()
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+  }
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    setError(null)
 
     const { error: signUpError } = await supabase.auth.signUp({
-      email,
-      password,
+      email: formData.email,
+      password: formData.password,
       options: {
         data: {
-          display_name: name,
+          display_name: formData.name,
         },
       },
     })
@@ -46,9 +52,10 @@ function SignUpPage() {
     setLoading(false)
 
     if (signUpError) {
-      setError(signUpError.message)
+      toast.error(signUpError.message)
     } else {
-      navigate({ to: '/' })
+      navigate({ to: '/login' })
+      toast.success('Account created successfully. Click the link sent to your email to verify your account')
     }
   }
 
@@ -68,34 +75,36 @@ function SignUpPage() {
                 <Label htmlFor="name">Name</Label>
                 <Input
                   id="name"
+                  name="name"
                   placeholder="John Doe"
                   required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  value={formData.name}
+                  onChange={handleChange}
                 />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
+                  name="email"
                   type="email"
                   placeholder="m@example.com"
                   required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={formData.email}
+                  onChange={handleChange}
                 />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="password">Password</Label>
                 <Input
                   id="password"
+                  name="password"
                   type="password"
                   required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={formData.password}
+                  onChange={handleChange}
                 />
               </div>
-               {error && <div className="text-red-500 text-sm">{error}</div>}
               <Button type="submit" className="w-full" disabled={loading}>
                 {loading ? 'Creating account...' : 'Create account'}
               </Button>

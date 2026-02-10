@@ -14,6 +14,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { supabase } from '@/lib/supabase'
 import { requireGuest } from '@/lib/auth'
+import { toast } from 'sonner'
 
 export const Route = createFileRoute('/login')({
   beforeLoad: () => requireGuest(),
@@ -21,28 +22,32 @@ export const Route = createFileRoute('/login')({
 })
 
 function LoginPage() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [formData,setFormData] = useState({
+    email: '',
+    password: '',
+  })
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
   const navigate = useNavigate()
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+  }
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    setError(null)
 
     const { error: signInError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
+      email: formData.email,
+      password: formData.password,
     })
 
     setLoading(false)
 
     if (signInError) {
-      setError(signInError.message)
+      toast.error(signInError.message)
     } else {
-      navigate({ to: '/' })
+      navigate({ to: '/dashboard' })
     }
   }
 
@@ -62,32 +67,33 @@ function LoginPage() {
                 <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
+                  name="email"
                   type="email"
                   placeholder="m@example.com"
                   required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={formData.email}
+                  onChange={handleChange}
                 />
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
-                  <Link
+                  {/* <Link
                     to="/login"
                     className="ml-auto inline-block text-sm underline"
                   >
                     Forgot your password?
-                  </Link>
+                  </Link> */}
                 </div>
                 <Input
                   id="password"
+                  name="password"
                   type="password"
                   required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={formData.password}
+                  onChange={handleChange}
                 />
               </div>
-              {error && <div className="text-red-500 text-sm">{error}</div>}
               <Button type="submit" className="w-full" disabled={loading}>
                 {loading ? 'Signing in...' : 'Login'}
               </Button>

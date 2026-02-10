@@ -11,8 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as BooksIndexRouteImport } from './routes/books/index'
+import { Route as DashboardProfileRouteImport } from './routes/dashboard/profile'
+import { Route as DashboardMyBooksRouteImport } from './routes/dashboard/my-books'
 import { Route as BooksBookIdRouteImport } from './routes/books/$bookId'
 
 const SignupRoute = SignupRouteImport.update({
@@ -25,15 +29,35 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardRouteRoute = DashboardRouteRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
 const BooksIndexRoute = BooksIndexRouteImport.update({
   id: '/books/',
   path: '/books/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardProfileRoute = DashboardProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardMyBooksRoute = DashboardMyBooksRouteImport.update({
+  id: '/my-books',
+  path: '/my-books',
+  getParentRoute: () => DashboardRouteRoute,
 } as any)
 const BooksBookIdRoute = BooksBookIdRouteImport.update({
   id: '/books/$bookId',
@@ -43,36 +67,75 @@ const BooksBookIdRoute = BooksBookIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRouteRouteWithChildren
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/books/$bookId': typeof BooksBookIdRoute
+  '/dashboard/my-books': typeof DashboardMyBooksRoute
+  '/dashboard/profile': typeof DashboardProfileRoute
   '/books/': typeof BooksIndexRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/books/$bookId': typeof BooksBookIdRoute
+  '/dashboard/my-books': typeof DashboardMyBooksRoute
+  '/dashboard/profile': typeof DashboardProfileRoute
   '/books': typeof BooksIndexRoute
+  '/dashboard': typeof DashboardIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRouteRouteWithChildren
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/books/$bookId': typeof BooksBookIdRoute
+  '/dashboard/my-books': typeof DashboardMyBooksRoute
+  '/dashboard/profile': typeof DashboardProfileRoute
   '/books/': typeof BooksIndexRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/signup' | '/books/$bookId' | '/books/'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/login'
+    | '/signup'
+    | '/books/$bookId'
+    | '/dashboard/my-books'
+    | '/dashboard/profile'
+    | '/books/'
+    | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/signup' | '/books/$bookId' | '/books'
-  id: '__root__' | '/' | '/login' | '/signup' | '/books/$bookId' | '/books/'
+  to:
+    | '/'
+    | '/login'
+    | '/signup'
+    | '/books/$bookId'
+    | '/dashboard/my-books'
+    | '/dashboard/profile'
+    | '/books'
+    | '/dashboard'
+  id:
+    | '__root__'
+    | '/'
+    | '/dashboard'
+    | '/login'
+    | '/signup'
+    | '/books/$bookId'
+    | '/dashboard/my-books'
+    | '/dashboard/profile'
+    | '/books/'
+    | '/dashboard/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
   BooksBookIdRoute: typeof BooksBookIdRoute
@@ -95,6 +158,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -102,12 +172,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/books/': {
       id: '/books/'
       path: '/books'
       fullPath: '/books/'
       preLoaderRoute: typeof BooksIndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/profile': {
+      id: '/dashboard/profile'
+      path: '/profile'
+      fullPath: '/dashboard/profile'
+      preLoaderRoute: typeof DashboardProfileRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/my-books': {
+      id: '/dashboard/my-books'
+      path: '/my-books'
+      fullPath: '/dashboard/my-books'
+      preLoaderRoute: typeof DashboardMyBooksRouteImport
+      parentRoute: typeof DashboardRouteRoute
     }
     '/books/$bookId': {
       id: '/books/$bookId'
@@ -119,8 +210,25 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface DashboardRouteRouteChildren {
+  DashboardMyBooksRoute: typeof DashboardMyBooksRoute
+  DashboardProfileRoute: typeof DashboardProfileRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
+}
+
+const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
+  DashboardMyBooksRoute: DashboardMyBooksRoute,
+  DashboardProfileRoute: DashboardProfileRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+}
+
+const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
+  DashboardRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DashboardRouteRoute: DashboardRouteRouteWithChildren,
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
   BooksBookIdRoute: BooksBookIdRoute,

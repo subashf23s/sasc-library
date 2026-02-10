@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { LogOut, User } from 'lucide-react'
+import { LogOut, User, LayoutDashboard } from 'lucide-react'
 import type { User as SupabaseUser } from '@supabase/supabase-js'
 
 export default function Header() {
@@ -55,6 +55,15 @@ export default function Header() {
             >
               Books
             </Link>
+            {user && (
+              <Link
+                to="/dashboard"
+                activeProps={{ className: 'text-primary' }}
+                inactiveProps={{ className: 'text-muted-foreground hover:text-primary transition-colors' }}
+              >
+                Dashboard
+              </Link>
+            )}
           </nav>
         </div>
 
@@ -79,9 +88,17 @@ export default function Header() {
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <User className="mr-2 h-4 w-4" />
-                  <span>Profile</span>
+                <DropdownMenuItem asChild>
+                  <Link to="/dashboard">
+                    <LayoutDashboard className="mr-2 h-4 w-4" />
+                    <span>Dashboard</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/dashboard/profile">
+                    <User className="mr-2 h-4 w-4" />
+                    <span>Profile</span>
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleSignOut}>

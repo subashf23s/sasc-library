@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { signIn } from '@/lib/auth-client'
+import { supabase } from '@/lib/supabase'
 
 export const Route = createFileRoute('/login')({
   component: LoginPage,
@@ -30,23 +30,18 @@ function LoginPage() {
     setLoading(true)
     setError(null)
 
-    await signIn.email({
+    const { error: signInError } = await supabase.auth.signInWithPassword({
       email,
       password,
-    }, {
-      onRequest: () => {
-        setLoading(true)
-      },
-      onResponse: () => {
-        setLoading(false)
-      },
-      onError: (ctx) => {
-        setError(ctx.error.message)
-      },
-      onSuccess: () => {
-        navigate({ to: '/' })
-      }
     })
+
+    setLoading(false)
+
+    if (signInError) {
+      setError(signInError.message)
+    } else {
+      navigate({ to: '/' })
+    }
   }
 
   return (
@@ -76,7 +71,7 @@ function LoginPage() {
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
                   <Link
-                    to="/login" // Placeholder for forgot password
+                    to="/login"
                     className="ml-auto inline-block text-sm underline"
                   >
                     Forgot your password?

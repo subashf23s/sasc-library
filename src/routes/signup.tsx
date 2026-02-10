@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { signUp } from '@/lib/auth-client'
+import { supabase } from '@/lib/supabase'
 
 export const Route = createFileRoute('/signup')({
   component: SignUpPage,
@@ -30,25 +30,24 @@ function SignUpPage() {
     e.preventDefault()
     setLoading(true)
     setError(null)
-    
-    await signUp.email({
-        email,
-        password,
-        name,
-    }, {
-        onRequest: () => {
-            setLoading(true)
+
+    const { error: signUpError } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          display_name: name,
         },
-        onResponse: () => {
-            setLoading(false)
-        },
-        onError: (ctx) => {
-            setError(ctx.error.message)
-        },
-        onSuccess: () => {
-             navigate({ to: '/' })
-        }
+      },
     })
+
+    setLoading(false)
+
+    if (signUpError) {
+      setError(signUpError.message)
+    } else {
+      navigate({ to: '/' })
+    }
   }
 
   return (

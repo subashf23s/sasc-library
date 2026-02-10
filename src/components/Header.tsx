@@ -1,6 +1,7 @@
 
 import { Link, useNavigate } from '@tanstack/react-router'
-import { signOut, useSession } from '@/lib/auth-client'
+import { useState, useEffect } from 'react'
+import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -12,20 +13,32 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { LogOut, User } from 'lucide-react'
+import type { User as SupabaseUser } from '@supabase/supabase-js'
 
 export default function Header() {
-  const { data: session } = useSession()
+  const [user, setUser] = useState<SupabaseUser | null>(null)
   const navigate = useNavigate()
 
-  const handleSignOut = async () => {
-    await signOut({
-      fetchOptions: {
-        onSuccess: () => {
-          navigate({ to: '/' })
-        },
-      },
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      setUser(data.user)
     })
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null)
+    })
+
+    return () => subscription.unsubscribe()
+  }, [])
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut()
+    navigate({ to: '/' })
   }
+
+  const displayName = user?.user_metadata?.display_name || user?.email || ''
+  const avatarUrl = user?.user_metadata?.avatar_url || ''
+  const initials = displayName.charAt(0).toUpperCase()
 
   return (
     <header className="border-b bg-background">
@@ -46,22 +59,22 @@ export default function Header() {
         </div>
 
         <div className="flex items-center gap-4">
-          {session ? (
+          {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                   <Avatar className="h-8 w-8">
-                    <AvatarImage src={session.user.image || ''} alt={session.user.name} />
-                    <AvatarFallback>{session.user.name.charAt(0).toUpperCase()}</AvatarFallback>
+                    <AvatarImage src={avatarUrl} alt={displayName} />
+                    <AvatarFallback>{initials}</AvatarFallback>
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56" align="end" forceMount>
                 <DropdownMenuLabel className="font-normal">
                   <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none">{session.user.name}</p>
+                    <p className="text-sm font-medium leading-none">{displayName}</p>
                     <p className="text-xs leading-none text-muted-foreground">
-                      {session.user.email}
+                      {user.email}
                     </p>
                   </div>
                 </DropdownMenuLabel>

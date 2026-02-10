@@ -2,7 +2,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState } from 'react'
 import { Search } from 'lucide-react'
-import { getBooks } from '@/data/books'
+import { getBooks, type Book } from '@/data/books'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -22,7 +22,7 @@ function BooksPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [statusFilter, setStatusFilter] = useState<'All' | 'Available' | 'Checked Out'>('All')
 
-  const filteredBooks = books.filter((book) => {
+  const filteredBooks = books.filter((book:Book) => {
     const matchesSearch =
       book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       book.author.toLowerCase().includes(searchQuery.toLowerCase())
@@ -78,7 +78,7 @@ function BooksPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredBooks.map((book) => (
+          {filteredBooks.map((book: Book) => (
             <Card key={book.id} className="overflow-hidden flex flex-col h-full hover:shadow-md transition-shadow">
               <div className="relative aspect-[2/3] overflow-hidden bg-muted group">
                  <img
@@ -105,7 +105,7 @@ function BooksPage() {
               </CardContent>
               <CardFooter className="p-4 pt-0">
                 <Button asChild className="w-full" variant="secondary">
-                  <Link to={`/books/${book.id}`}>View Details</Link>
+                  <Link to="/books/$bookId" params={{ bookId: book.id }}>View Details</Link>
                 </Button>
               </CardFooter>
             </Card>

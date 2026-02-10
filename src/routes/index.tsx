@@ -2,10 +2,10 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Search, BookOpen, Clock, ArrowRight, Book, Star } from 'lucide-react'
+import { Search, BookOpen, Clock, ArrowRight, Book as BookIcon, Star } from 'lucide-react'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { getBooks } from '@/data/books'
+import { getBooks, type Book } from '@/data/books'
 
 export const Route = createFileRoute('/')({
   component: Home,
@@ -62,7 +62,7 @@ function Home() {
         </div>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredBooks.map((book) => (
+            {featuredBooks.map((book: Book) => (
                 <Card key={book.id} className="overflow-hidden flex flex-col h-full hover:shadow-md transition-shadow">
                     <div className="relative aspect-[2/3] overflow-hidden bg-muted group">
                         <img 
@@ -81,7 +81,7 @@ function Home() {
                         <div className="flex justify-between items-start gap-2 mb-2">
                             <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">{book.category}</p>
                             <div className="flex items-center text-yellow-500 text-xs">
-                                <span className="font-bold mr-1">★</span>{book.rating}
+                                <Star className="h-4 w-4 text-yellow-500 fill-yellow-500 mr-1" />{book.rating}
                             </div>
                         </div>
                         <h3 className="font-semibold text-lg line-clamp-1 mb-1" title={book.title}>{book.title}</h3>
@@ -89,7 +89,7 @@ function Home() {
                     </CardContent>
                     <CardFooter className="p-4 pt-0">
                          <Button asChild className="w-full" variant="secondary">
-                             <Link to={`/books/${book.id}`}>View Details</Link>
+                             <Link to="/books/$bookId" params={{ bookId: book.id }}>View Details</Link>
                          </Button>
                     </CardFooter>
                 </Card>
@@ -121,7 +121,7 @@ function Home() {
             </div>
              <div className="flex flex-col items-center">
                 <div className="h-12 w-12 rounded-full bg-primary-foreground/20 flex items-center justify-center mb-4">
-                    <Book className="h-6 w-6" />
+                    <BookIcon className="h-6 w-6" />
                 </div>
                  <h3 className="text-xl font-bold mb-2">Easy Borrowing</h3>
                 <p className="opacity-90">Simple checkout process with flexible return windows.</p>
@@ -142,7 +142,7 @@ function Home() {
         </div>
 
            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {recentArrivals.map((book) => (
+            {recentArrivals.map((book: Book) => (
                 <Card key={book.id} className="overflow-hidden flex flex-col h-full hover:shadow-md transition-shadow">
                     <div className="relative aspect-[2/3] overflow-hidden bg-muted group">
                         <img 
@@ -166,7 +166,7 @@ function Home() {
                     </CardContent>
                      <CardFooter className="p-4 pt-0">
                          <Button asChild className="w-full" variant="outline">
-                             <Link to={`/books/${book.id}`}>View Details</Link>
+                             <Link to="/books/$bookId" params={{ bookId: book.id }}>View Details</Link>
                          </Button>
                     </CardFooter>
                 </Card>

@@ -1,4 +1,6 @@
 
+import { createServerFn } from '@tanstack/react-start'
+
 export interface Book {
   id: string;
   title: string;
@@ -13,7 +15,7 @@ export interface Book {
   rating: number;
 }
 
-export const books: Book[] = [
+const booksData: Book[] = [
   {
     id: '1',
     title: 'The Great Gatsby',
@@ -93,3 +95,16 @@ export const books: Book[] = [
       rating: 4.1,
     }
 ];
+
+export const getBooks = createServerFn({
+  method: 'GET',
+}).handler(async () => {
+  return booksData
+})
+
+export const getBook = createServerFn({
+    method: 'GET',
+}).inputValidator((id: string) => id)
+  .handler(async ({ data: id }) => {
+    return booksData.find(book => book.id === id)
+  })

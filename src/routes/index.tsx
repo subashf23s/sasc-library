@@ -1,241 +1,182 @@
 
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { useState } from 'react'
-import {
-  Book,
-  Search,
-  BookOpen,
-  Calendar,
-  Clock,
-  ArrowRight,
-} from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import {
-  Card,
-  CardContent,
-  CardFooter,
-} from '@/components/ui/card'
+import { Search, BookOpen, Clock, ArrowRight, Book, Star } from 'lucide-react'
+import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { getBooks } from '@/data/books'
 
 export const Route = createFileRoute('/')({
-  component: App,
+  component: Home,
+  loader: () => getBooks(),
 })
 
-function App() {
-  const [searchQuery, setSearchQuery] = useState('')
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault()
-    // In a real app, this would navigate to a search results page
-    console.log('Searching for:', searchQuery)
-  }
-
-  // Placeholder data for featured books
-  const featuredBooks = [
-    {
-      id: 1,
-      title: 'The Great Gatsby',
-      author: 'F. Scott Fitzgerald',
-      cover: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=300&h=400',
-      status: 'Available',
-      category: 'Classic Literature',
-    },
-    {
-      id: 2,
-      title: 'Dune',
-      author: 'Frank Herbert',
-      cover: 'https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&q=80&w=300&h=400',
-      status: 'Checked Out',
-      category: 'Science Fiction',
-    },
-    {
-      id: 3,
-      title: 'Atomic Habits',
-      author: 'James Clear',
-      cover: 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=300&h=400',
-      status: 'Available',
-      category: 'Self Help',
-    },
-    {
-      id: 4,
-      title: 'Project Hail Mary',
-      author: 'Andy Weir',
-      cover: 'https://images.unsplash.com/photo-1614544048536-0d28caf77f41?auto=format&fit=crop&q=80&w=300&h=400',
-      status: 'Available',
-      category: 'Science Fiction',
-    },
-  ]
-
-    const newArrivals = [
-    {
-      id: 5,
-      title: 'Tomorrow, and Tomorrow, and Tomorrow',
-      author: 'Gabrielle Zevin',
-      added: '2 days ago',
-    },
-    {
-      id: 6,
-      title: 'Yellowface',
-      author: 'R.F. Kuang',
-      added: '5 days ago',
-    },
-    {
-      id: 7,
-      title: 'Fourth Wing',
-      author: 'Rebecca Yarros',
-      added: '1 week ago',
-    },
-  ]
+function Home() {
+  const books = Route.useLoaderData()
+  const featuredBooks = books.slice(0, 4)
+  const recentArrivals = books.slice(-4).reverse()
 
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="relative py-20 px-6 sm:px-12 lg:px-24 bg-gradient-to-br from-primary/10 via-background to-background dark:from-primary/5">
-        <div className="max-w-4xl mx-auto text-center space-y-8">
-          <Badge variant="secondary" className="mb-4">
-            New & Improved Catalog
-          </Badge>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-foreground">
-            Welcome to the <span className="text-primary">SASC Library</span>
+      <section className="bg-muted/40 py-20 md:py-32">
+        <div className="container mx-auto px-4 text-center">
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">
+            Welcome to the SASC Library
           </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Discover your next favorite book. Browse our extensive collection, manage your loans, and explore new worlds.
+          <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
+            Discover a world of knowledge. Borrow books, manage your account, and explore our vast collection.
           </p>
-
-          <form onSubmit={handleSearch} className="flex w-full max-w-md mx-auto items-center space-x-2">
-            <Input 
-                type="text" 
+          
+          <div className="max-w-md mx-auto flex gap-2 mb-10">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
+              <Input 
                 placeholder="Search by title, author, or ISBN..." 
-                className="h-12 text-lg shadow-sm"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <Button type="submit" size="lg" className="h-12 px-6">
-              <Search className="mr-2 h-5 w-5" /> Search
-            </Button>
-          </form>
+                className="pl-10 h-11 text-base bg-background shadow-sm"
+              />
+            </div>
+            <Button size="lg" className="h-11">Search</Button>
+          </div>
 
-          <div className="flex flex-wrap justify-center gap-4 pt-4">
-             <Button variant="outline" asChild>
+          <div className="flex justify-center gap-4">
+            <Button size="lg" asChild>
                 <Link to="/books">Browse Collection</Link>
-             </Button>
-             <Button variant="ghost" asChild>
-                <Link to="/login">My Account <ArrowRight className="ml-2 h-4 w-4"/></Link>
-             </Button>
+            </Button>
+            <Button size="lg" variant="outline">My Account</Button>
           </div>
         </div>
       </section>
 
-      {/* Main Content Info */}
-      <section className="py-12 px-6 sm:px-12 lg:px-24 bg-muted/30">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <div className="flex gap-4 items-start">
-                <div className="bg-primary/10 p-3 rounded-lg">
-                    <BookOpen className="h-6 w-6 text-primary" />
-                </div>
-                <div>
-                    <h3 className="font-semibold text-lg mb-1">Extensive Collection</h3>
-                    <p className="text-muted-foreground text-sm">Access thousands of books across various genres and formats.</p>
-                </div>
-            </div>
-            <div className="flex gap-4 items-start">
-                <div className="bg-primary/10 p-3 rounded-lg">
-                    <Clock className="h-6 w-6 text-primary" />
-                </div>
-                <div>
-                    <h3 className="font-semibold text-lg mb-1">24/7 Access</h3>
-                    <p className="text-muted-foreground text-sm">Manage your account, renew loans, and reserve books anytime online.</p>
-                </div>
-            </div>
-             <div className="flex gap-4 items-start">
-                <div className="bg-primary/10 p-3 rounded-lg">
-                    <Calendar className="h-6 w-6 text-primary" />
-                </div>
-                <div>
-                    <h3 className="font-semibold text-lg mb-1">Events & Workshops</h3>
-                    <p className="text-muted-foreground text-sm">Join our regular reading sessions, author talks, and community events.</p>
-                </div>
-            </div>
-        </div>
-      </section>
-
       {/* Featured Books Section */}
-      <section className="py-16 px-6 sm:px-12 lg:px-24 max-w-7xl mx-auto w-full">
-        <div className="flex items-center justify-between mb-8">
+      <section className="py-16 container mx-auto px-4">
+        <div className="flex justify-between items-end mb-8">
             <div>
-                <h2 className="text-3xl font-bold tracking-tight">Featured Books</h2>
-                <p className="text-muted-foreground mt-1">Curated picks for this month.</p>
+                <h2 className="text-3xl font-bold tracking-tight mb-2">Featured Books</h2>
+                <p className="text-muted-foreground">Hand-picked selections just for you.</p>
             </div>
-            <Button variant="ghost" className="text-primary hover:text-primary/80" asChild>
-                <Link to="/books">View All</Link>
+            <Button variant="ghost" className="hidden md:flex gap-1" asChild>
+                <Link to="/books">View All <ArrowRight className="h-4 w-4" /></Link>
             </Button>
         </div>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {featuredBooks.map((book) => (
-            <Card key={book.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="aspect-[3/4] overflow-hidden bg-muted relative group">
-                <img 
-                    src={book.cover} 
-                    alt={`Cover of ${book.title}`}
-                    className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
-                />
-                 <Badge 
-                    variant={book.status === 'Available' ? 'default' : 'secondary'} 
-                    className="absolute top-2 right-2"
-                >
-                    {book.status}
-                </Badge>
-              </div>
-              <CardContent className="p-4">
-                <p className="text-xs text-muted-foreground mb-1">{book.category}</p>
-                <h3 className="font-semibold text-lg line-clamp-1">{book.title}</h3>
-                <p className="text-sm text-muted-foreground">{book.author}</p>
-              </CardContent>
-              <CardFooter className="p-4 pt-0">
-                <Button asChild className="w-full" variant="secondary" size="sm">
-                    <Link to={`/books/${book.id}`}>Details</Link>
-                </Button>
-              </CardFooter>
-            </Card>
-          ))}
+            {featuredBooks.map((book) => (
+                <Card key={book.id} className="overflow-hidden flex flex-col h-full hover:shadow-md transition-shadow">
+                    <div className="relative aspect-[2/3] overflow-hidden bg-muted group">
+                        <img 
+                            src={book.cover} 
+                            alt={book.title}
+                            className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
+                        />
+                         <Badge 
+                            variant={book.status === 'Available' ? 'default' : 'secondary'}
+                            className="absolute top-2 right-2"
+                        >
+                            {book.status}
+                        </Badge>
+                    </div>
+                     <CardContent className="flex-1 p-4">
+                        <div className="flex justify-between items-start gap-2 mb-2">
+                            <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">{book.category}</p>
+                            <div className="flex items-center text-yellow-500 text-xs">
+                                <span className="font-bold mr-1">★</span>{book.rating}
+                            </div>
+                        </div>
+                        <h3 className="font-semibold text-lg line-clamp-1 mb-1" title={book.title}>{book.title}</h3>
+                        <p className="text-sm text-muted-foreground">{book.author}</p>
+                    </CardContent>
+                    <CardFooter className="p-4 pt-0">
+                         <Button asChild className="w-full" variant="secondary">
+                             <Link to={`/books/${book.id}`}>View Details</Link>
+                         </Button>
+                    </CardFooter>
+                </Card>
+            ))}
+        </div>
+         <div className="mt-8 text-center md:hidden">
+            <Button variant="outline" className="w-full" asChild>
+                 <Link to="/books">View All Featured</Link>
+            </Button>
         </div>
       </section>
 
-      {/* Recent Arrivals */}
-      <section className="py-16 px-6 sm:px-12 lg:px-24 bg-muted/30">
-         <div className="max-w-4xl mx-auto">
-             <div className="text-center mb-10">
-                <h2 className="text-3xl font-bold tracking-tight">Just Arrived</h2>
-                <p className="text-muted-foreground mt-2">The latest additions to our shelves.</p>
-             </div>
-             
-             <div className="grid gap-4">
-                {newArrivals.map((book) => (
-                    <div key={book.id} className="flex items-center justify-between p-4 bg-background rounded-lg border shadow-sm hover:border-primary/50 transition-colors">
-                        <div className="flex items-center gap-4">
-                             <div className="bg-primary/10 p-2 rounded-full">
-                                <Book className="h-5 w-5 text-primary" />
-                             </div>
-                             <div>
-                                <h4 className="font-medium">{book.title}</h4>
-                                <p className="text-sm text-muted-foreground">by {book.author}</p>
-                             </div>
-                        </div>
-                        <div className="text-sm text-muted-foreground flex items-center gap-2">
-                             <span>Added {book.added}</span>
-                             <Badge variant="outline">New</Badge>
-                        </div>
+      {/* Stats/Features Section */}
+      <section className="bg-primary text-primary-foreground py-16">
+        <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div className="flex flex-col items-center">
+                <div className="h-12 w-12 rounded-full bg-primary-foreground/20 flex items-center justify-center mb-4">
+                    <BookOpen className="h-6 w-6" />
+                </div>
+                <h3 className="text-xl font-bold mb-2">Extensive Catalog</h3>
+                <p className="opacity-90">Thousands of books across all genres, updated weekly.</p>
+            </div>
+             <div className="flex flex-col items-center">
+                <div className="h-12 w-12 rounded-full bg-primary-foreground/20 flex items-center justify-center mb-4">
+                    <Clock className="h-6 w-6" />
+                </div>
+                <h3 className="text-xl font-bold mb-2">24/7 Access</h3>
+                <p className="opacity-90">Browse and reserve books online anytime, anywhere.</p>
+            </div>
+             <div className="flex flex-col items-center">
+                <div className="h-12 w-12 rounded-full bg-primary-foreground/20 flex items-center justify-center mb-4">
+                    <Book className="h-6 w-6" />
+                </div>
+                 <h3 className="text-xl font-bold mb-2">Easy Borrowing</h3>
+                <p className="opacity-90">Simple checkout process with flexible return windows.</p>
+            </div>
+        </div>
+      </section>
+
+      {/* Recent Arrivals Section */}
+      <section className="py-16 container mx-auto px-4">
+        <div className="flex justify-between items-end mb-8">
+            <div>
+                <h2 className="text-3xl font-bold tracking-tight mb-2">Recent Arrivals</h2>
+                <p className="text-muted-foreground">Fresh additions to our shelves.</p>
+            </div>
+             <Button variant="ghost" className="hidden md:flex gap-1" asChild>
+                <Link to="/books">View Full Catalog <ArrowRight className="h-4 w-4" /></Link>
+            </Button>
+        </div>
+
+           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {recentArrivals.map((book) => (
+                <Card key={book.id} className="overflow-hidden flex flex-col h-full hover:shadow-md transition-shadow">
+                    <div className="relative aspect-[2/3] overflow-hidden bg-muted group">
+                        <img 
+                            src={book.cover} 
+                            alt={book.title}
+                            className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
+                        />
+                         <Badge 
+                            variant="outline"
+                            className="absolute top-2 right-2 bg-background/80 backdrop-blur-sm"
+                        >
+                           New
+                        </Badge>
                     </div>
-                ))}
-             </div>
-             <div className="mt-8 text-center">
-                 <Button variant="outline" asChild>
-                    <Link to="/books">View Full Catalog</Link>
-                 </Button>
-             </div>
-         </div>
+                     <CardContent className="flex-1 p-4">
+                         <div className="flex justify-between items-start gap-2 mb-2">
+                            <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">{book.category}</p>
+                        </div>
+                        <h3 className="font-semibold text-lg line-clamp-1 mb-1" title={book.title}>{book.title}</h3>
+                        <p className="text-sm text-muted-foreground">{book.author}</p>
+                    </CardContent>
+                     <CardFooter className="p-4 pt-0">
+                         <Button asChild className="w-full" variant="outline">
+                             <Link to={`/books/${book.id}`}>View Details</Link>
+                         </Button>
+                    </CardFooter>
+                </Card>
+            ))}
+        </div>
+          <div className="mt-8 text-center md:hidden">
+            <Button variant="outline" className="w-full" asChild>
+                <Link to="/books">View Full Catalog</Link>
+            </Button>
+        </div>
       </section>
     </div>
   )

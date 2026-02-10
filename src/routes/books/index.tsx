@@ -1,8 +1,8 @@
 
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState } from 'react'
-import { Search, Filter } from 'lucide-react'
-import { books } from '@/data/books'
+import { Search } from 'lucide-react'
+import { getBooks } from '@/data/books'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -14,9 +14,11 @@ import { Badge } from '@/components/ui/badge'
 
 export const Route = createFileRoute('/books/')({
   component: BooksPage,
+  loader: () => getBooks(),
 })
 
 function BooksPage() {
+  const books = Route.useLoaderData()
   const [searchQuery, setSearchQuery] = useState('')
   const [statusFilter, setStatusFilter] = useState<'All' | 'Available' | 'Checked Out'>('All')
 

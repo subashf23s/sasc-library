@@ -20,6 +20,7 @@ function DashboardLayout() {
   const navItems = [
     { to: '/dashboard' as const, label: 'Overview', icon: LayoutDashboard },
     { to: '/dashboard/my-books' as const, label: 'My Books', icon: BookOpen },
+    { to: '/dashboard/manage-books' as const, label: 'Manage Books', icon: BookOpen },
     { to: '/dashboard/profile' as const, label: 'Profile', icon: User },
   ] as const
 

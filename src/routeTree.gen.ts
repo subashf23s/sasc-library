@@ -17,6 +17,7 @@ import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as BooksIndexRouteImport } from './routes/books/index'
 import { Route as DashboardProfileRouteImport } from './routes/dashboard/profile'
 import { Route as DashboardMyBooksRouteImport } from './routes/dashboard/my-books'
+import { Route as DashboardManageBooksRouteImport } from './routes/dashboard/manage-books'
 import { Route as BooksBookIdRouteImport } from './routes/books/$bookId'
 
 const SignupRoute = SignupRouteImport.update({
@@ -59,6 +60,11 @@ const DashboardMyBooksRoute = DashboardMyBooksRouteImport.update({
   path: '/my-books',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
+const DashboardManageBooksRoute = DashboardManageBooksRouteImport.update({
+  id: '/manage-books',
+  path: '/manage-books',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
 const BooksBookIdRoute = BooksBookIdRouteImport.update({
   id: '/books/$bookId',
   path: '/books/$bookId',
@@ -71,6 +77,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/books/$bookId': typeof BooksBookIdRoute
+  '/dashboard/manage-books': typeof DashboardManageBooksRoute
   '/dashboard/my-books': typeof DashboardMyBooksRoute
   '/dashboard/profile': typeof DashboardProfileRoute
   '/books/': typeof BooksIndexRoute
@@ -81,6 +88,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/books/$bookId': typeof BooksBookIdRoute
+  '/dashboard/manage-books': typeof DashboardManageBooksRoute
   '/dashboard/my-books': typeof DashboardMyBooksRoute
   '/dashboard/profile': typeof DashboardProfileRoute
   '/books': typeof BooksIndexRoute
@@ -93,6 +101,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/books/$bookId': typeof BooksBookIdRoute
+  '/dashboard/manage-books': typeof DashboardManageBooksRoute
   '/dashboard/my-books': typeof DashboardMyBooksRoute
   '/dashboard/profile': typeof DashboardProfileRoute
   '/books/': typeof BooksIndexRoute
@@ -106,6 +115,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/books/$bookId'
+    | '/dashboard/manage-books'
     | '/dashboard/my-books'
     | '/dashboard/profile'
     | '/books/'
@@ -116,6 +126,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/books/$bookId'
+    | '/dashboard/manage-books'
     | '/dashboard/my-books'
     | '/dashboard/profile'
     | '/books'
@@ -127,6 +138,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/books/$bookId'
+    | '/dashboard/manage-books'
     | '/dashboard/my-books'
     | '/dashboard/profile'
     | '/books/'
@@ -200,6 +212,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardMyBooksRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
+    '/dashboard/manage-books': {
+      id: '/dashboard/manage-books'
+      path: '/manage-books'
+      fullPath: '/dashboard/manage-books'
+      preLoaderRoute: typeof DashboardManageBooksRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/books/$bookId': {
       id: '/books/$bookId'
       path: '/books/$bookId'
@@ -211,12 +230,14 @@ declare module '@tanstack/react-router' {
 }
 
 interface DashboardRouteRouteChildren {
+  DashboardManageBooksRoute: typeof DashboardManageBooksRoute
   DashboardMyBooksRoute: typeof DashboardMyBooksRoute
   DashboardProfileRoute: typeof DashboardProfileRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
+  DashboardManageBooksRoute: DashboardManageBooksRoute,
   DashboardMyBooksRoute: DashboardMyBooksRoute,
   DashboardProfileRoute: DashboardProfileRoute,
   DashboardIndexRoute: DashboardIndexRoute,

@@ -1,7 +1,6 @@
-
-import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,47 +8,61 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { supabase } from '@/lib/supabase'
-import { requireGuest } from '@/lib/auth'
-import { toast } from 'sonner'
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { supabase } from "@/lib/supabase";
+import { unAuthMiddleware } from "@/lib/auth";
+import { toast } from "sonner";
 
-export const Route = createFileRoute('/login')({
-  beforeLoad: () => requireGuest(),
+export const Route = createFileRoute("/login")({
   component: LoginPage,
-})
+  server: {
+    middleware: [unAuthMiddleware],
+  },
+});
 
 function LoginPage() {
-  const [formData,setFormData] = useState({
-    email: '',
-    password: '',
-  })
-  const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // client-side redirect if already signed in
+    let mounted = true;
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (!mounted) return;
+      if (user) navigate({ to: "/dashboard" });
+    });
+    return () => {
+      mounted = false;
+    };
+  }, [navigate]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
   const handleSignIn = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    setLoading(true);
 
     const { error: signInError } = await supabase.auth.signInWithPassword({
       email: formData.email,
       password: formData.password,
-    })
+    });
 
-    setLoading(false)
+    setLoading(false);
 
     if (signInError) {
-      toast.error(signInError.message)
+      toast.error(signInError.message);
     } else {
-      navigate({ to: '/dashboard' })
+      navigate({ to: "/dashboard" });
     }
-  }
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 p-4">
@@ -95,14 +108,14 @@ function LoginPage() {
                 />
               </div>
               <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? 'Signing in...' : 'Login'}
+                {loading ? "Signing in..." : "Login"}
               </Button>
             </div>
           </form>
         </CardContent>
         <CardFooter className="flex flex-col gap-2">
-           <div className="text-center text-sm">
-            Don&apos;t have an account?{' '}
+          <div className="text-center text-sm">
+            Don&apos;t have an account?{" "}
             <Link to="/signup" className="underline">
               Sign up
             </Link>
@@ -110,5 +123,5 @@ function LoginPage() {
         </CardFooter>
       </Card>
     </div>
-  )
+  );
 }

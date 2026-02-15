@@ -3,7 +3,9 @@ import { createMiddleware } from "@tanstack/react-start";
 import { supabase } from "./supabase";
 
 export async function getUser() {
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   return user;
 }
 
@@ -21,6 +23,14 @@ export async function requireGuest() {
     throw redirect({ to: "/dashboard" });
   }
 }
+export const unAuthMiddleware = createMiddleware().server(async ({ next }) => {
+  const user = await getUser();
+  console.log("User", user);
+  if (user) {
+    throw redirect({ to: "/dashboard" });
+  }
+  return next();
+});
 
 export const authMiddleware = createMiddleware().server(async ({ next }) => {
   const user = await getUser();

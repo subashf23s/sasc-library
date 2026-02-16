@@ -1,49 +1,59 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { useState } from 'react'
-import { supabase } from '@/lib/supabase'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+import { supabase } from "@/lib/supabase";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-export const Route = createFileRoute('/dashboard/profile')({
+export const Route = createFileRoute("/dashboard/profile")({
   component: ProfilePage,
-})
+});
 
 function ProfilePage() {
-  const { user } = Route.useRouteContext()
-  const [displayName, setDisplayName] = useState(user.user_metadata?.display_name || '')
-  const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState<string | null>(null)
+  const { user } = Route.useRouteContext();
+  const [displayName, setDisplayName] = useState(
+    user.user_metadata?.display_name || "",
+  );
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
 
-  const email = user.email || ''
-  const avatarUrl = user.user_metadata?.avatar_url || ''
-  const initials = (displayName || email).charAt(0).toUpperCase()
+  const email = user.email || "";
+  const avatarUrl = user.user_metadata?.avatar_url || "";
+  const initials = (displayName || email).charAt(0).toUpperCase();
 
   const handleUpdateProfile = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    setMessage(null)
+    e.preventDefault();
+    setLoading(true);
+    setMessage(null);
 
     const { error } = await supabase.auth.updateUser({
       data: { display_name: displayName },
-    })
+    });
 
-    setLoading(false)
+    setLoading(false);
 
     if (error) {
-      setMessage(`Error: ${error.message}`)
+      setMessage(`Error: ${error.message}`);
     } else {
-      setMessage('Profile updated successfully!')
+      setMessage("Profile updated successfully!");
     }
-  }
+  };
 
   return (
-    <div className="space-y-8 max-w-2xl">
+    <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Profile</h1>
-        <p className="text-muted-foreground mt-1">Manage your account settings.</p>
+        <p className="text-muted-foreground mt-1">
+          Manage your account settings.
+        </p>
       </div>
 
       <Card>
@@ -58,7 +68,9 @@ function ProfilePage() {
               <AvatarFallback className="text-xl">{initials}</AvatarFallback>
             </Avatar>
             <div>
-              <p className="font-semibold text-lg">{displayName || 'No name set'}</p>
+              <p className="font-semibold text-lg">
+                {displayName || "No name set"}
+              </p>
               <p className="text-sm text-muted-foreground">{email}</p>
             </div>
           </div>
@@ -66,8 +78,16 @@ function ProfilePage() {
           <form onSubmit={handleUpdateProfile} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" value={email} disabled className="bg-muted" />
-              <p className="text-xs text-muted-foreground">Email cannot be changed here.</p>
+              <Input
+                id="email"
+                type="email"
+                value={email}
+                disabled
+                className="bg-muted"
+              />
+              <p className="text-xs text-muted-foreground">
+                Email cannot be changed here.
+              </p>
             </div>
             <div className="space-y-2">
               <Label htmlFor="displayName">Display Name</Label>
@@ -79,12 +99,14 @@ function ProfilePage() {
               />
             </div>
             {message && (
-              <p className={`text-sm ${message.startsWith('Error') ? 'text-red-500' : 'text-green-600'}`}>
+              <p
+                className={`text-sm ${message.startsWith("Error") ? "text-red-500" : "text-green-600"}`}
+              >
                 {message}
               </p>
             )}
             <Button type="submit" disabled={loading}>
-              {loading ? 'Saving...' : 'Save Changes'}
+              {loading ? "Saving..." : "Save Changes"}
             </Button>
           </form>
         </CardContent>
@@ -93,21 +115,27 @@ function ProfilePage() {
       <Card>
         <CardHeader>
           <CardTitle>Account</CardTitle>
-          <CardDescription>Account details and membership info.</CardDescription>
+          <CardDescription>
+            Account details and membership info.
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3 text-sm">
           <div className="flex justify-between">
             <span className="text-muted-foreground">Member since</span>
-            <span className="font-medium">{new Date(user.created_at).toLocaleDateString()}</span>
+            <span className="font-medium">
+              {new Date(user.created_at).toLocaleDateString()}
+            </span>
           </div>
           <div className="flex justify-between">
             <span className="text-muted-foreground">Last sign in</span>
             <span className="font-medium">
-              {user.last_sign_in_at ? new Date(user.last_sign_in_at).toLocaleDateString() : 'N/A'}
+              {user.last_sign_in_at
+                ? new Date(user.last_sign_in_at).toLocaleDateString()
+                : "N/A"}
             </span>
           </div>
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

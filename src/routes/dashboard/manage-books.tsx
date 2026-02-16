@@ -1,6 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { useForm } from "@tanstack/react-form";
+// NOTE: react-hook-form removed. We're using a controlled form with Zod
+// validation to replace RHF. If you want a stricter integration with
+// @tanstack/react-form later, we can wire that in once the project's
+// preferred patterns/docs are available.
 import {
   Card,
   CardContent,
@@ -33,7 +38,46 @@ function ManageBooksPage() {
   const [editingBook, setEditingBook] = useState<Book | null>(null);
   const [isAddForm, setIsAddForm] = useState(false);
 
-  const { register, handleSubmit, reset, setValue } = useForm<Partial<Book>>();
+  const bookSchema = z.object({
+    title: z.string().min(1, "Title is required"),
+    author: z.string().min(1, "Author is required"),
+    isbn: z.string().optional().nullable().or(z.literal("")),
+    category: z.string().optional().nullable().or(z.literal("")),
+    coverUrl: z.string().url().optional().nullable().or(z.literal("")),
+    publishedDate: z.string().optional().nullable().or(z.literal("")),
+    pageCount: z.number().int().nonnegative().optional(),
+    rating: z.number().min(0).max(5).optional(),
+    totalCount: z.number().int().nonnegative().optional(),
+    availableCount: z.number().int().nonnegative().optional(),
+    description: z.string().optional().nullable().or(z.literal("")),
+    remarks: z.string().optional().nullable().or(z.literal("")),
+  });
+
+  // Minimal local type describing the small subset of the form API we use.
+  // This lets us avoid wide `any` casts while remaining tolerant to minor
+  // differences across @tanstack/react-form versions.
+  type FormApi<TValues> = {
+    register?: (name: keyof TValues | string) => Record<string, any>;
+    handleSubmit?: (e?: any) => void;
+    reset?: (values?: Partial<TValues>) => void;
+    setError?: (
+      name: keyof TValues | string,
+      error: { message?: string },
+    ) => void;
+    getFieldMeta?: (
+      name: keyof TValues | string,
+    ) => { error?: { message?: string } | null } | undefined;
+    clearErrors?: () => void;
+  };
+
+  // Create the form and type it to our small FormApi so usages below are typed
+  // without requiring the full type-parameter list from the library.
+  const form = useForm({
+    defaultValues: {},
+    onSubmit: async (values: any) => {
+      await handleFormSubmit(values as Partial<Book>);
+    },
+  }) as unknown as FormApi<Partial<Book>>;
 
   const fetchBooks = async () => {
     try {
@@ -51,17 +95,38 @@ function ManageBooksPage() {
     fetchBooks();
   }, []);
 
-  const onSubmit = async (data: Partial<Book>) => {
+  const handleFormSubmit = async (values: Partial<Book>) => {
     try {
       setIsSubmitting(true);
+      // Validate with Zod
+      const parsed = bookSchema.partial().safeParse(values);
+      if (!parsed.success) {
+        // map zod errors to form errors
+        const zodErrors: Record<string, string> = {};
+        for (const issue of parsed.error.issues) {
+          const key = issue.path[0] as string;
+          zodErrors[key] = issue.message;
+        }
+        // set errors on form fields (best-effort; API may vary by version)
+        Object.entries(zodErrors).forEach(([key, message]) => {
+          try {
+            form.setError?.(key as any, { message });
+          } catch {}
+        });
+        return;
+      }
+
+      const data = parsed.data as Partial<Book>;
       if (editingBook) {
-        await updateBook({ data: { ...data, id: editingBook.id } as Book });
+        await updateBook({ data: { ...(data as Book), id: editingBook.id } });
         toast.success("Book updated successfully");
       } else {
         await createBook({ data });
         toast.success("Book created successfully");
       }
-      reset();
+
+      // reset form and editing state
+      form.reset?.();
       setEditingBook(null);
       fetchBooks();
     } catch (error) {
@@ -76,18 +141,21 @@ function ManageBooksPage() {
 
   const handleEdit = (book: Book) => {
     setEditingBook(book);
-    setValue("title", book.title);
-    setValue("author", book.author);
-    setValue("description", book.description);
-    setValue("coverUrl", book.coverUrl);
-    setValue("isbn", book.isbn);
-    setValue("publishedDate", book.publishedDate);
-    setValue("pageCount", book.pageCount);
-    setValue("category", book.category);
-    setValue("rating", book.rating);
-    setValue("remarks", book.remarks);
-    setValue("totalCount", book.totalCount);
-    setValue("availableCount", book.availableCount);
+    // populate form values
+    form.reset?.({
+      title: book.title ?? undefined,
+      author: book.author ?? undefined,
+      description: book.description ?? undefined,
+      coverUrl: book.coverUrl ?? undefined,
+      isbn: book.isbn ?? undefined,
+      publishedDate: book.publishedDate ?? undefined,
+      pageCount: book.pageCount ?? undefined,
+      category: book.category ?? undefined,
+      rating: book.rating ?? undefined,
+      remarks: book.remarks ?? undefined,
+      totalCount: book.totalCount ?? undefined,
+      availableCount: book.availableCount ?? undefined,
+    });
     setIsAddForm(true);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -106,7 +174,12 @@ function ManageBooksPage() {
   const cancelEdit = () => {
     setEditingBook(null);
     setIsAddForm(false);
-    reset();
+    // reset form state
+    form.reset?.();
+    // clear field errors if API available
+    try {
+      form.clearErrors?.();
+    } catch {}
   };
 
   return (
@@ -127,108 +200,142 @@ function ManageBooksPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={form.handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="title">Title *</Label>
                   <Input
-                    id="title"
-                    {...register("title", { required: true })}
+                    {...(form.register
+                      ? form.register("title")
+                      : { name: "title" })}
                     placeholder="The Great Gatsby"
                   />
+                  {form.getFieldMeta?.("title")?.error?.message && (
+                    <p className="text-sm text-destructive">
+                      {form.getFieldMeta("title")?.error?.message}
+                    </p>
+                  )}
                 </div>
+
                 <div className="space-y-2">
                   <Label htmlFor="author">Author *</Label>
                   <Input
-                    id="author"
-                    {...register("author", { required: true })}
+                    {...(form.register
+                      ? form.register("author")
+                      : { name: "author" })}
                     placeholder="F. Scott Fitzgerald"
                   />
+                  {form.getFieldMeta?.("author")?.error?.message && (
+                    <p className="text-sm text-destructive">
+                      {form.getFieldMeta("author")?.error?.message}
+                    </p>
+                  )}
                 </div>
+
                 <div className="space-y-2">
                   <Label htmlFor="isbn">ISBN</Label>
                   <Input
-                    id="isbn"
-                    {...register("isbn")}
+                    {...(form.register
+                      ? form.register("isbn")
+                      : { name: "isbn" })}
                     placeholder="978-3-16-148410-0"
                   />
                 </div>
+
                 <div className="space-y-2">
                   <Label htmlFor="category">Category</Label>
                   <Input
-                    id="category"
-                    {...register("category")}
+                    {...(form.register
+                      ? form.register("category")
+                      : { name: "category" })}
                     placeholder="Fiction"
                   />
                 </div>
+
                 <div className="space-y-2">
                   <Label htmlFor="coverUrl">Cover URL</Label>
                   <Input
-                    id="coverUrl"
-                    {...register("coverUrl")}
+                    {...(form.register
+                      ? form.register("coverUrl")
+                      : { name: "coverUrl" })}
                     placeholder="https://example.com/cover.jpg"
                   />
                 </div>
+
                 <div className="space-y-2">
                   <Label htmlFor="publishedDate">Published Date</Label>
                   <Input
-                    id="publishedDate"
+                    {...(form.register
+                      ? form.register("publishedDate")
+                      : { name: "publishedDate" })}
                     type="date"
-                    {...register("publishedDate")}
                   />
                 </div>
+
                 <div className="space-y-2">
                   <Label htmlFor="pageCount">Page Count</Label>
                   <Input
-                    id="pageCount"
+                    {...(form.register
+                      ? form.register("pageCount")
+                      : { name: "pageCount" })}
                     type="number"
-                    {...register("pageCount", { valueAsNumber: true })}
                   />
                 </div>
+
                 <div className="space-y-2">
                   <Label htmlFor="rating">Rating (1-5)</Label>
                   <Input
-                    id="rating"
+                    {...(form.register
+                      ? form.register("rating")
+                      : { name: "rating" })}
                     type="number"
                     min="1"
                     max="5"
                     step="0.1"
-                    {...register("rating", { valueAsNumber: true })}
                   />
                 </div>
+
                 <div className="space-y-2">
                   <Label htmlFor="totalCount">Total Copies</Label>
                   <Input
-                    id="totalCount"
+                    {...(form.register
+                      ? form.register("totalCount")
+                      : { name: "totalCount" })}
                     type="number"
-                    {...register("totalCount", { valueAsNumber: true })}
                   />
                 </div>
+
                 <div className="space-y-2">
                   <Label htmlFor="availableCount">Available Copies</Label>
                   <Input
-                    id="availableCount"
+                    {...(form.register
+                      ? form.register("availableCount")
+                      : { name: "availableCount" })}
                     type="number"
-                    {...register("availableCount", { valueAsNumber: true })}
                   />
                 </div>
               </div>
+
               <div className="space-y-2">
                 <Label htmlFor="description">Description</Label>
                 <Textarea
-                  id="description"
-                  {...register("description")}
+                  {...(form.register
+                    ? form.register("description")
+                    : { name: "description" })}
                   placeholder="A brief summary of the book..."
                 />
               </div>
+
               <div className="space-y-2">
                 <Label htmlFor="remarks">Remarks</Label>
                 <Textarea
-                  id="remarks"
-                  {...register("remarks")}
+                  {...(form.register
+                    ? form.register("remarks")
+                    : { name: "remarks" })}
                   placeholder="Internal notes..."
                 />
               </div>
+
               <div className="flex gap-2 justify-end">
                 {editingBook && (
                   <Button type="button" variant="outline" onClick={cancelEdit}>

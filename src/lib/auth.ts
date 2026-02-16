@@ -25,7 +25,6 @@ export async function requireGuest() {
 }
 export const unAuthMiddleware = createMiddleware().server(async ({ next }) => {
   const user = await getUser();
-  console.log("User", user);
   if (user) {
     throw redirect({ to: "/dashboard" });
   }

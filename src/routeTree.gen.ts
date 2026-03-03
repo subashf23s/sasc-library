@@ -10,7 +10,12 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignupRouteImport } from './routes/signup'
+import { Route as NewsRouteImport } from './routes/news'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as FindALibraryRouteImport } from './routes/find-a-library'
+import { Route as DiscoverRouteImport } from './routes/discover'
+import { Route as AgendaRouteImport } from './routes/agenda'
+import { Route as AboutUsRouteImport } from './routes/about-us'
 import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
@@ -25,9 +30,34 @@ const SignupRoute = SignupRouteImport.update({
   path: '/signup',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NewsRoute = NewsRouteImport.update({
+  id: '/news',
+  path: '/news',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FindALibraryRoute = FindALibraryRouteImport.update({
+  id: '/find-a-library',
+  path: '/find-a-library',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DiscoverRoute = DiscoverRouteImport.update({
+  id: '/discover',
+  path: '/discover',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgendaRoute = AgendaRouteImport.update({
+  id: '/agenda',
+  path: '/agenda',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutUsRoute = AboutUsRouteImport.update({
+  id: '/about-us',
+  path: '/about-us',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRouteRoute = DashboardRouteRouteImport.update({
@@ -74,7 +104,12 @@ const BooksBookIdRoute = BooksBookIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/about-us': typeof AboutUsRoute
+  '/agenda': typeof AgendaRoute
+  '/discover': typeof DiscoverRoute
+  '/find-a-library': typeof FindALibraryRoute
   '/login': typeof LoginRoute
+  '/news': typeof NewsRoute
   '/signup': typeof SignupRoute
   '/books/$bookId': typeof BooksBookIdRoute
   '/dashboard/manage-books': typeof DashboardManageBooksRoute
@@ -85,7 +120,12 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about-us': typeof AboutUsRoute
+  '/agenda': typeof AgendaRoute
+  '/discover': typeof DiscoverRoute
+  '/find-a-library': typeof FindALibraryRoute
   '/login': typeof LoginRoute
+  '/news': typeof NewsRoute
   '/signup': typeof SignupRoute
   '/books/$bookId': typeof BooksBookIdRoute
   '/dashboard/manage-books': typeof DashboardManageBooksRoute
@@ -98,7 +138,12 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/about-us': typeof AboutUsRoute
+  '/agenda': typeof AgendaRoute
+  '/discover': typeof DiscoverRoute
+  '/find-a-library': typeof FindALibraryRoute
   '/login': typeof LoginRoute
+  '/news': typeof NewsRoute
   '/signup': typeof SignupRoute
   '/books/$bookId': typeof BooksBookIdRoute
   '/dashboard/manage-books': typeof DashboardManageBooksRoute
@@ -112,7 +157,12 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/dashboard'
+    | '/about-us'
+    | '/agenda'
+    | '/discover'
+    | '/find-a-library'
     | '/login'
+    | '/news'
     | '/signup'
     | '/books/$bookId'
     | '/dashboard/manage-books'
@@ -123,7 +173,12 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about-us'
+    | '/agenda'
+    | '/discover'
+    | '/find-a-library'
     | '/login'
+    | '/news'
     | '/signup'
     | '/books/$bookId'
     | '/dashboard/manage-books'
@@ -135,7 +190,12 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/dashboard'
+    | '/about-us'
+    | '/agenda'
+    | '/discover'
+    | '/find-a-library'
     | '/login'
+    | '/news'
     | '/signup'
     | '/books/$bookId'
     | '/dashboard/manage-books'
@@ -148,7 +208,12 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
+  AboutUsRoute: typeof AboutUsRoute
+  AgendaRoute: typeof AgendaRoute
+  DiscoverRoute: typeof DiscoverRoute
+  FindALibraryRoute: typeof FindALibraryRoute
   LoginRoute: typeof LoginRoute
+  NewsRoute: typeof NewsRoute
   SignupRoute: typeof SignupRoute
   BooksBookIdRoute: typeof BooksBookIdRoute
   BooksIndexRoute: typeof BooksIndexRoute
@@ -163,11 +228,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/news': {
+      id: '/news'
+      path: '/news'
+      fullPath: '/news'
+      preLoaderRoute: typeof NewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/find-a-library': {
+      id: '/find-a-library'
+      path: '/find-a-library'
+      fullPath: '/find-a-library'
+      preLoaderRoute: typeof FindALibraryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/discover': {
+      id: '/discover'
+      path: '/discover'
+      fullPath: '/discover'
+      preLoaderRoute: typeof DiscoverRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agenda': {
+      id: '/agenda'
+      path: '/agenda'
+      fullPath: '/agenda'
+      preLoaderRoute: typeof AgendaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about-us': {
+      id: '/about-us'
+      path: '/about-us'
+      fullPath: '/about-us'
+      preLoaderRoute: typeof AboutUsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -250,7 +350,12 @@ const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRouteRoute: DashboardRouteRouteWithChildren,
+  AboutUsRoute: AboutUsRoute,
+  AgendaRoute: AgendaRoute,
+  DiscoverRoute: DiscoverRoute,
+  FindALibraryRoute: FindALibraryRoute,
   LoginRoute: LoginRoute,
+  NewsRoute: NewsRoute,
   SignupRoute: SignupRoute,
   BooksBookIdRoute: BooksBookIdRoute,
   BooksIndexRoute: BooksIndexRoute,

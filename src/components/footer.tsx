@@ -3,7 +3,7 @@ import Logo from "./logo";
 const Footer = () => {
   return (
     <footer>
-      <div className="container mx-auto py-8 border-t border-gray-400 flex flex-col md:flex-row gap-4 items-center justify-between">
+      <div className="container mx-auto py-8 px-4 border-t border-gray-400 flex flex-col md:flex-row gap-4 items-center justify-between">
         <Logo />
         <nav>
           <ul className="flex text-sm font-semibold text-gray-700 divide-x divide-gray-500">

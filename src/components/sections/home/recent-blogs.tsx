@@ -25,7 +25,7 @@ const recentBlogs = [
 ];
 const RecentBlogs = () => {
   return (
-    <section className="py-16 container mx-auto ">
+    <section className="py-16 container mx-auto px-4 ">
       <h2 className="text-2xl md:text-4xl font-extrabold tracking-wider mb-10 text-center text-gray-700 w-2/3 mx-auto">
         Our Recent Blogs
       </h2>

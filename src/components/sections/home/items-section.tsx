@@ -26,7 +26,7 @@ const items = [
 ];
 const ItemsSection = () => {
   return (
-    <section className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-4 py-32">
+    <section className="container px-4 mx-auto grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-4 py-32">
       {items.map((item) => (
         <div key={item.id} className="relative">
           <img

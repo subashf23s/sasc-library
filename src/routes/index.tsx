@@ -1,30 +1,27 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Hero from "@/components/sections/home/hero";
+import ItemsSection from "@/components/sections/home/items-section";
+import WhatIsFor from "@/components/sections/home/what-is-for";
 import {
   Search,
   BookOpen,
   Clock,
   ArrowRight,
   Book as BookIcon,
-  Star,
 } from "lucide-react";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { getBooks, type Book } from "@/data/books";
 
 export const Route = createFileRoute("/")({
   component: Home,
-  loader: () => getBooks(),
 });
 
 function Home() {
-  const books = Route.useLoaderData();
-  const featuredBooks = books.slice(0, 4);
-  const recentArrivals = books.slice(-4).reverse();
-
   return (
     <div className="flex flex-col min-h-screen">
+      <Hero />
+      <ItemsSection />
+      <WhatIsFor />
       {/* Hero Section */}
       <section className="bg-muted/40 py-20 md:py-32">
         <div className="container mx-auto px-4 text-center">
@@ -79,53 +76,7 @@ function Home() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {featuredBooks.map((book: Book) => (
-            <Card
-              key={book.id}
-              className="overflow-hidden flex flex-col hover:shadow-md transition-shadow pt-0"
-            >
-              <div className="relative overflow-hidden bg-muted group">
-                <img
-                  src={book.coverUrl ?? ""}
-                  alt={book.title}
-                  className="object-cover w-full h-40 transition-transform duration-300 group-hover:scale-105"
-                />
-                {/* <Badge
-                  variant={
-                    book.status === "Available" ? "default" : "secondary"
-                  }
-                  className="absolute top-2 right-2"
-                >
-                  {book.status}
-                </Badge> */}
-              </div>
-              <CardContent className="flex-1 px-4 pt-1">
-                <div className="flex justify-between items-start gap-2 mb-2">
-                  <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">
-                    {book.category}
-                  </p>
-                  <div className="flex items-center text-yellow-500 text-xs">
-                    <span className="font-bold mr-1">★</span>
-                    {book.rating}
-                  </div>
-                </div>
-                <h3
-                  className="font-semibold text-lg line-clamp-1 mb-1"
-                  title={book.title}
-                >
-                  {book.title}
-                </h3>
-                <p className="text-sm text-muted-foreground">{book.author}</p>
-              </CardContent>
-              <CardFooter className="px-4 pt-0">
-                <Button asChild className="w-full" variant="secondary">
-                  <Link to="/books/$bookId" params={{ bookId: book.id }}>
-                    View Details
-                  </Link>
-                </Button>
-              </CardFooter>
-            </Card>
-          ))}
+          <h1>Books</h1>
         </div>
         <div className="mt-8 text-center md:hidden">
           <Button variant="outline" className="w-full" asChild>
@@ -186,51 +137,7 @@ function Home() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {recentArrivals.map((book: Book) => (
-            <Card
-              key={book.id}
-              className="overflow-hidden flex flex-col hover:shadow-md transition-shadow pt-0"
-            >
-              <div className="relative overflow-hidden bg-muted group">
-                <img
-                  src={book.coverUrl ?? ""}
-                  alt={book.title}
-                  className="object-cover w-full h-40 transition-transform duration-300 group-hover:scale-105"
-                />
-                {/* <Badge
-                    variant={book.status === 'Available' ? 'default' : 'secondary'}
-                    className="absolute top-2 right-2"
-                >
-                    {book.status}
-                </Badge> */}
-              </div>
-              <CardContent className="flex-1 px-4 pt-1">
-                <div className="flex justify-between items-start gap-2 mb-2">
-                  <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">
-                    {book.category}
-                  </p>
-                  <div className="flex items-center text-yellow-500 text-xs">
-                    <span className="font-bold mr-1">★</span>
-                    {book.rating}
-                  </div>
-                </div>
-                <h3
-                  className="font-semibold text-lg line-clamp-1 mb-1"
-                  title={book.title}
-                >
-                  {book.title}
-                </h3>
-                <p className="text-sm text-muted-foreground">{book.author}</p>
-              </CardContent>
-              <CardFooter className="px-4 pt-0">
-                <Button asChild className="w-full" variant="secondary">
-                  <Link to="/books/$bookId" params={{ bookId: book.id }}>
-                    View Details
-                  </Link>
-                </Button>
-              </CardFooter>
-            </Card>
-          ))}
+          <h1>Recent Arrivals</h1>
         </div>
         <div className="mt-8 text-center md:hidden">
           <Button variant="outline" className="w-full" asChild>

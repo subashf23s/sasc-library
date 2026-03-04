@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Hero from "@/components/sections/home/hero";
 import ItemsSection from "@/components/sections/home/items-section";
+import WhatIsFor from "@/components/sections/home/what-is-for";
 import {
   Search,
   BookOpen,
@@ -20,6 +21,7 @@ function Home() {
     <div className="flex flex-col min-h-screen">
       <Hero />
       <ItemsSection />
+      <WhatIsFor />
       {/* Hero Section */}
       <section className="bg-muted/40 py-20 md:py-32">
         <div className="container mx-auto px-4 text-center">

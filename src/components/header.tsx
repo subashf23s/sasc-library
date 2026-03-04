@@ -55,8 +55,10 @@ export default function Header() {
             ))}
           </ul>
         </nav>
-        <Link to="/login" className="text-sm font-medium">
-          <Button className="rounded-3xl cursor-pointer">Log In</Button>
+        <Link to="/login" className="text-sm">
+          <Button className="rounded-3xl cursor-pointer font-semibold">
+            Log In
+          </Button>
         </Link>
       </div>
     </header>

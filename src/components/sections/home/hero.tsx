@@ -4,7 +4,8 @@ import { Input } from "../../ui/input";
 
 const Hero = () => {
   return (
-    <section className="bg-[url('/assets/img/library.png')] bg-cover bg-center bg-no-repeat min-h-dvh">
+    // <section className="bg-[url('/assets/img/library.png')] bg-cover bg-center bg-no-repeat min-h-dvh">
+    <section className="bg-indigo-950 min-h-dvh">
       <div className="bg-black/30 min-h-dvh relative">
         <div className="container mx-auto px-4 py-16 flex flex-col items-center justify-center gap-8">
           <h1 className="text-7xl font-bold text-white text-center">
@@ -14,7 +15,7 @@ const Hero = () => {
               particular book?
             </span>
           </h1>
-          <Card className="w-full max-w-md bg-gray-300 z-10">
+          <Card className="w-full max-w-md bg-gray-200 z-10">
             <CardContent>
               <form action="">
                 <div className="flex flex-col gap-4">

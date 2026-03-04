@@ -30,7 +30,7 @@ const WhatIsFor = () => {
             <img
               src={item.image}
               alt=""
-              className="rounded-xl w-full h-[300px] object-cover"
+              className="rounded-xl w-full h-[200px] object-cover object-center"
             />
             <h3 className="absolute bottom-10 left-1/2 -translate-x-1/2 text-center text-sm text-gray-700 bg-white font-bold py-1 px-4 rounded-2xl">
               {item.name}

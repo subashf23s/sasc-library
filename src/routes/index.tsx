@@ -1,17 +1,18 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { createFileRoute } from "@tanstack/react-router";
+// import { Button } from "@/components/ui/button";
+// import { Input } from "@/components/ui/input";
 import Hero from "@/components/sections/home/hero";
 import ItemsSection from "@/components/sections/home/items-section";
 import WhatIsFor from "@/components/sections/home/what-is-for";
 import RecentBlogs from "@/components/sections/home/recent-blogs";
-import {
-  Search,
-  BookOpen,
-  Clock,
-  ArrowRight,
-  Book as BookIcon,
-} from "lucide-react";
+import StartBusiness from "@/components/sections/home/start-business";
+// import {
+//   Search,
+//   BookOpen,
+//   Clock,
+//   ArrowRight,
+//   Book as BookIcon,
+// } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -24,6 +25,7 @@ function Home() {
       <ItemsSection />
       <WhatIsFor />
       <RecentBlogs />
+      <StartBusiness />
       {/* Hero Section */}
       {/* <section className="bg-muted/40 py-20 md:py-32">
         <div className="container mx-auto px-4 text-center">

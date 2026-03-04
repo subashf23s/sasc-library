@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import Hero from "@/components/sections/home/hero";
 import ItemsSection from "@/components/sections/home/items-section";
 import WhatIsFor from "@/components/sections/home/what-is-for";
+import RecentBlogs from "@/components/sections/home/recent-blogs";
 import {
   Search,
   BookOpen,
@@ -22,8 +23,9 @@ function Home() {
       <Hero />
       <ItemsSection />
       <WhatIsFor />
+      <RecentBlogs />
       {/* Hero Section */}
-      <section className="bg-muted/40 py-20 md:py-32">
+      {/* <section className="bg-muted/40 py-20 md:py-32">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">
             Welcome to the SASC Library
@@ -55,10 +57,10 @@ function Home() {
             </Button>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Featured Books Section */}
-      <section className="py-16 container mx-auto px-4">
+      {/* <section className="py-16 container mx-auto px-4">
         <div className="flex justify-between items-end mb-8">
           <div>
             <h2 className="text-3xl font-bold tracking-tight mb-2">
@@ -83,10 +85,10 @@ function Home() {
             <Link to="/books">View All Featured</Link>
           </Button>
         </div>
-      </section>
+      </section> */}
 
       {/* Stats/Features Section */}
-      <section className="bg-primary text-primary-foreground py-16">
+      {/* <section className="bg-primary text-primary-foreground py-16">
         <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
           <div className="flex flex-col items-center">
             <div className="h-12 w-12 rounded-full bg-primary-foreground/20 flex items-center justify-center mb-4">
@@ -116,10 +118,10 @@ function Home() {
             </p>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Recent Arrivals Section */}
-      <section className="py-16 container mx-auto px-4">
+      {/* <section className="py-16 container mx-auto px-4">
         <div className="flex justify-between items-end mb-8">
           <div>
             <h2 className="text-3xl font-bold tracking-tight mb-2">
@@ -144,7 +146,7 @@ function Home() {
             <Link to="/books">View Full Catalog</Link>
           </Button>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { Input } from "../ui/input";
 
 const Hero = () => {
   return (
-    <section className="bg-[url('/assets/img/library.jpeg')] bg-cover bg-center bg-no-repeat min-h-dvh">
+    <section className="bg-[url('/assets/img/library.png')] bg-cover bg-center bg-no-repeat min-h-dvh">
       <div className="bg-black/30 min-h-dvh relative">
         <div className="container mx-auto px-4 py-16 flex flex-col items-center justify-center gap-8">
           <h1 className="text-7xl font-bold text-white text-center">

@@ -1,8 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import Hero from "@/components/sections/hero";
-import ItemsSection from "@/components/sections/items-section";
+import Hero from "@/components/sections/home/hero";
+import ItemsSection from "@/components/sections/home/items-section";
 import {
   Search,
   BookOpen,

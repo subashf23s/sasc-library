@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Card, CardContent, CardDescription, CardTitle } from "../ui/card";
+import { Card, CardContent, CardDescription, CardTitle } from "../../ui/card";
 
 const items = [
   {

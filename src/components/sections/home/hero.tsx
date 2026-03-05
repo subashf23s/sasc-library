@@ -1,11 +1,11 @@
+import ParticleSystem from "@/components/particle-system";
 import { Button } from "../../ui/button";
 import { Card, CardContent } from "../../ui/card";
 import { Input } from "../../ui/input";
-
 const Hero = () => {
   return (
     // <section className="bg-[url('/assets/img/library.png')] bg-cover bg-center bg-no-repeat min-h-dvh">
-    <section className="bg-indigo-950 min-h-dvh">
+    <section className="bg-indigo-950 min-h-dvh overflow-hidden relative">
       <div className="bg-black/30 min-h-dvh relative">
         <div className="container mx-auto px-4 py-16 flex flex-col items-center justify-center gap-8">
           <h1 className="md:text-7xl text-5xl font-bold text-white text-center">
@@ -15,6 +15,7 @@ const Hero = () => {
               particular book?
             </span>
           </h1>
+          <ParticleSystem />
           <Card className="w-full max-w-md bg-gray-200 z-10">
             <CardContent>
               <form action="">

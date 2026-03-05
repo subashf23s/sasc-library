@@ -25,7 +25,7 @@ const Hero = () => {
                   />
                   <Button
                     type="submit"
-                    className="bg-blue-500 rounded-3xl font-bold"
+                    className="bg-blue-500 hover:bg-blue-600 transition-colors cursor-pointer rounded-3xl font-bold"
                   >
                     Search
                   </Button>

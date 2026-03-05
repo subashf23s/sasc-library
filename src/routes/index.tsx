@@ -6,6 +6,7 @@ import ItemsSection from "@/components/sections/home/items-section";
 import WhatIsFor from "@/components/sections/home/what-is-for";
 import RecentBlogs from "@/components/sections/home/recent-blogs";
 import StartBusiness from "@/components/sections/home/start-business";
+import UpcomingAgenda from "@/components/sections/home/upcoming-agenda";
 // import {
 //   Search,
 //   BookOpen,
@@ -24,6 +25,7 @@ function Home() {
       <Hero />
       <ItemsSection />
       <WhatIsFor />
+      <UpcomingAgenda />
       <RecentBlogs />
       <StartBusiness />
       {/* Hero Section */}

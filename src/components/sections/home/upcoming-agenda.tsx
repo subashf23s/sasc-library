@@ -1,4 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 const agendaTitles = [
   {
@@ -59,16 +66,16 @@ const upcomingAgendaData = [
       "Commonly used for various content concerning read various content",
     image: "/assets/img/library.png",
   },
-  //   {
-  //     id: 5,
-  //     title: "Partners",
-  //     type: "Partners",
-  //     by: "Author",
-  //     date: "2026-03-05",
-  //     description:
-  //       "Commonly used for various content concerning read various content",
-  //     image: "/assets/img/library.png",
-  //   },
+  {
+    id: 5,
+    title: "Partners",
+    type: "Partners",
+    by: "Author",
+    date: "2026-03-05",
+    description:
+      "Commonly used for various content concerning read various content",
+    image: "/assets/img/library.png",
+  },
 ];
 const UpcomingAgenda = () => {
   return (
@@ -91,36 +98,45 @@ const UpcomingAgenda = () => {
         <h2 className="text-2xl md:text-4xl font-extrabold tracking-wider text-center text-white bg-indigo-950 pt-16 pb-64">
           Upcoming Agenda
         </h2>
-        <div className="container mx-auto px-4 left-0 right-0 absolute bottom-0 transform translate-y-1/2">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {upcomingAgendaData.map((data) => (
-              <Card key={data.id} className="p-1 gap-1">
-                <CardHeader className="relative p-1">
-                  <img
-                    src={data.image}
-                    alt=""
-                    className="w-full h-48 object-cover rounded-t-lg"
-                  />
-                  <div className="absolute bottom-5 left-0 right-0 flex items-center justify-center gap-2 text-xs font-semibold">
-                    <p className="bg-white text-violet-500 px-2 py-1 rounded-lg">
-                      {data.type}
-                    </p>
-                    <p className="bg-white text-red-500 px-2 py-1 rounded-lg">
-                      {data.by}
-                    </p>
-                  </div>
-                </CardHeader>
-                <CardContent className="pb-4">
-                  <CardTitle className="text-center text-gray-700">
-                    {data.title}
-                  </CardTitle>
-                  <p className="text-center text-gray-500 text-sm">
-                    {data.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+        <div className="container mx-auto px-16 left-0 right-0 absolute bottom-0 transform translate-y-1/2">
+          <Carousel className="w-full " opts={{ align: "start", loop: true }}>
+            <CarouselContent>
+              {upcomingAgendaData.map((data) => (
+                <CarouselItem
+                  key={data.id}
+                  className="basis-1/1 md:basis-1/2 lg:basis-1/4"
+                >
+                  <Card className="p-1 gap-1">
+                    <CardHeader className="relative p-1">
+                      <img
+                        src={data.image}
+                        alt=""
+                        className="w-full h-40 object-cover rounded-t-lg"
+                      />
+                      <div className="absolute bottom-6 left-0 right-0 flex items-center justify-center gap-2 text-xs font-semibold">
+                        <p className="bg-white text-violet-500 px-2 py-1 rounded-sm">
+                          {data.type}
+                        </p>
+                        <p className="bg-white text-red-500 px-2 py-1 rounded-sm">
+                          {data.by}
+                        </p>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="pb-4">
+                      <CardTitle className="text-center text-gray-700">
+                        {data.title}
+                      </CardTitle>
+                      <p className="text-center text-gray-500 text-sm">
+                        {data.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
         </div>
       </div>
     </section>

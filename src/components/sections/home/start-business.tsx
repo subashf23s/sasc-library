@@ -8,10 +8,10 @@ const StartBusiness = () => {
           Start Business your business today for $10+ state fees
         </h2>
         <div className="flex justify-center md:justify-end gap-4">
-          <Button className="bg-red-500 hover:bg-red-600 text-white px-12 py-6 rounded-full font-semibold ">
+          <Button className="bg-red-500 hover:bg-red-600 text-white px-12 py-6 rounded-full font-semibold cursor-pointer">
             See Pricing
           </Button>
-          <Button className="bg-blue-500 hover:bg-blue-600 text-white px-12 py-6 rounded-full font-semibold ">
+          <Button className="bg-blue-500 hover:bg-blue-600 text-white px-12 py-6 rounded-full font-semibold cursor-pointer">
             Get Started
           </Button>
         </div>

@@ -1,6 +1,14 @@
 import { Link } from "@tanstack/react-router";
 import Logo from "./logo";
 import { Button } from "./ui/button";
+import { useState } from "react";
+import { Menu, X } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 const navItems = [
   {
     id: 1,
@@ -36,8 +44,7 @@ export default function Header() {
           <Logo />
         </Link>
 
-        <nav>
-          {/* <Link
+        {/* <Link
             to="/books"
             activeProps={{ className: "text-primary" }}
             inactiveProps={{
@@ -47,15 +54,9 @@ export default function Header() {
           >
             Books
           </Link> */}
-          <ul className="flex items-center gap-6 text-sm font-semibold text-muted-foreground">
-            {navItems.map((item) => (
-              <li key={item.id}>
-                <Link to={item.href}>{item.name}</Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-        <Link to="/login" className="text-sm">
+        <NavItems />
+
+        <Link to="/login" className="text-sm hidden md:block">
           <Button className="rounded-3xl cursor-pointer font-semibold">
             Log In
           </Button>
@@ -64,3 +65,47 @@ export default function Header() {
     </header>
   );
 }
+const NavItems = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <nav>
+      <DropdownMenu onOpenChange={setIsOpen}>
+        <DropdownMenuTrigger asChild className="md:hidden">
+          <Button size="icon">{isOpen ? <X /> : <Menu />}</Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem>
+            <Link to="/discover">Discover</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Link to="/about-us">About Us</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Link to="/find-a-library">Find a Library</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Link to="/agenda">Agenda</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Link to="/news">News</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Link to="/login" className="w-full">
+              <Button size="sm" className="cursor-pointer font-semibold w-full">
+                Log In
+              </Button>
+            </Link>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      <ul className="hidden md:flex items-center gap-6 text-sm font-semibold text-muted-foreground">
+        {navItems.map((item) => (
+          <li key={item.id}>
+            <Link to={item.href}>{item.name}</Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+};

@@ -1,20 +1,21 @@
+import ParticleSystem from "@/components/particle-system";
 import { Button } from "../../ui/button";
 import { Card, CardContent } from "../../ui/card";
 import { Input } from "../../ui/input";
-
 const Hero = () => {
   return (
     // <section className="bg-[url('/assets/img/library.png')] bg-cover bg-center bg-no-repeat min-h-dvh">
-    <section className="bg-indigo-950 min-h-dvh">
+    <section className="bg-indigo-950 min-h-dvh overflow-hidden relative">
       <div className="bg-black/30 min-h-dvh relative">
         <div className="container mx-auto px-4 py-16 flex flex-col items-center justify-center gap-8">
-          <h1 className="text-7xl font-bold text-white text-center">
+          <h1 className="md:text-7xl text-5xl font-bold text-white text-center">
             <span>Looking for a </span>
             <br />
             <span className="inline-block bg-gradient-to-b from-red-300 to-red-900 bg-clip-text text-transparent">
               particular book?
             </span>
           </h1>
+          <ParticleSystem />
           <Card className="w-full max-w-md bg-gray-200 z-10">
             <CardContent>
               <form action="">
@@ -25,7 +26,7 @@ const Hero = () => {
                   />
                   <Button
                     type="submit"
-                    className="bg-blue-500 rounded-3xl font-bold"
+                    className="bg-blue-500 hover:bg-blue-600 transition-colors cursor-pointer rounded-3xl font-bold"
                   >
                     Search
                   </Button>
@@ -34,7 +35,7 @@ const Hero = () => {
             </CardContent>
           </Card>
         </div>
-        <div className="absolute bottom-0 left-0 right-0 flex items-baseline justify-between ">
+        <div className="hidden absolute bottom-0 left-0 right-0 md:flex items-baseline justify-between ">
           <img
             src="/assets/img/person1.png"
             alt=""

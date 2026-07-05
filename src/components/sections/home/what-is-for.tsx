@@ -19,27 +19,28 @@ const items = [
   },
 ];
 const WhatIsFor = () => {
-  return (
-    <section className="container mx-auto py-16 px-4">
-      <h2 className="text-2xl md:text-4xl font-extrabold tracking-wider mb-10 text-center text-gray-700 w-2/3 mx-auto">
-        The library, a place for meetings,culture, learning and leisure
-      </h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {items.map((item) => (
-          <div key={item.id} className="relative p-4 rounded-xl bg-cyan-50">
-            <img
-              src={item.image}
-              alt=""
-              className="rounded-xl w-full h-[200px] object-cover object-center"
-            />
-            <h3 className="absolute bottom-10 left-1/2 -translate-x-1/2 text-center text-sm text-gray-700 bg-white font-bold py-1 px-4 rounded-2xl">
-              {item.name}
-            </h3>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
+  return <section>What is for</section>
+  // return (
+  //   <section className="container mx-auto py-16 px-4">
+  //     <h2 className="text-2xl md:text-4xl font-extrabold tracking-wider mb-10 text-center text-gray-700 w-2/3 mx-auto">
+  //       The library, a place for meetings,culture, learning and leisure
+  //     </h2>
+  //     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+  //       {items.map((item) => (
+  //         <div key={item.id} className="relative p-4 rounded-xl bg-cyan-50">
+  //           <img
+  //             src={item.image}
+  //             alt=""
+  //             className="rounded-xl w-full h-[200px] object-cover object-center"
+  //           />
+  //           <h3 className="absolute bottom-10 left-1/2 -translate-x-1/2 text-center text-sm text-gray-700 bg-white font-bold py-1 px-4 rounded-2xl">
+  //             {item.name}
+  //           </h3>
+  //         </div>
+  //       ))}
+  //     </div>
+  //   </section>
+  // );
 };
 
 export default WhatIsFor;

@@ -1,21 +1,28 @@
+import { Button, Divider, Flex, Input, Space, Typography } from "antd";
 import Logo from "./logo";
 
 const Footer = () => {
   return (
-    <footer>
-      <div className="container mx-auto py-8 px-4 border-t border-gray-400 flex flex-col md:flex-row gap-4 items-center justify-between">
-        <Logo />
-        <nav>
-          <ul className="flex text-sm font-semibold text-gray-700 divide-x divide-gray-500">
-            <li className="px-2">Legal Notice</li>
-            <li className="px-2">Site Map</li>
-            <li className="px-2">Contact</li>
-            <li className="px-2">Privacy Policy</li>
-          </ul>
-        </nav>
-        <p className="text-sm text-gray-700">
-          © {new Date().getFullYear()} Magicbooks.
-        </p>
+    <footer className="bg-black py-10">
+      <Flex vertical={true} justify="center" align="center" className="container">
+        <Space orientation="vertical" align="center">
+        <Logo/>
+        <Typography.Title level={2} className="!text-white text-center">Subscribe for the <br/> Daily updates</Typography.Title>
+        <Space.Compact size="large">
+          <Input placeholder="Enter your email"/>
+          <Button variant="solid" color="purple">Subscribe</Button>
+        </Space.Compact>
+        </Space>
+        <Divider className="bg-gray-900"/>
+        <Space align="center">
+        <Typography.Text className="!text-gray-800 text-center">
+          Copyright &copy; 2026 MagicBook | All Rights Reserved.
+        </Typography.Text>
+        </Space>
+      </Flex>
+      
+      <div>
+
       </div>
     </footer>
   );

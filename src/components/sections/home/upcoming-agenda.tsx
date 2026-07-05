@@ -78,69 +78,70 @@ const upcomingAgendaData = [
   },
 ];
 const UpcomingAgenda = () => {
-  return (
-    <section className="pb-64">
-      <div className="container mx-auto py-16 px-4">
-        <h2 className="text-2xl md:text-4xl font-extrabold tracking-wider mb-10 text-center text-gray-700 w-2/3 mx-auto">
-          For Professionals
-        </h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {agendaTitles.map((title) => (
-            <Card key={title.id} className="">
-              <CardHeader>
-                <CardTitle className="text-center">{title.title}</CardTitle>
-              </CardHeader>
-            </Card>
-          ))}
-        </div>
-      </div>
-      <div className="relative">
-        <h2 className="text-2xl md:text-4xl font-extrabold tracking-wider text-center text-white bg-indigo-950 pt-16 pb-64">
-          Upcoming Agenda
-        </h2>
-        <div className="container mx-auto px-16 left-0 right-0 absolute bottom-0 transform translate-y-1/2">
-          <Carousel className="w-full " opts={{ align: "start", loop: true }}>
-            <CarouselContent>
-              {upcomingAgendaData.map((data) => (
-                <CarouselItem
-                  key={data.id}
-                  className="basis-1/1 md:basis-1/2 lg:basis-1/4"
-                >
-                  <Card className="p-1 gap-1">
-                    <CardHeader className="relative p-1">
-                      <img
-                        src={data.image}
-                        alt=""
-                        className="w-full h-40 object-cover rounded-t-lg"
-                      />
-                      <div className="absolute bottom-6 left-0 right-0 flex items-center justify-center gap-2 text-xs font-semibold">
-                        <p className="bg-white text-violet-500 px-2 py-1 rounded-sm">
-                          {data.type}
-                        </p>
-                        <p className="bg-white text-red-500 px-2 py-1 rounded-sm">
-                          {data.by}
-                        </p>
-                      </div>
-                    </CardHeader>
-                    <CardContent className="pb-4">
-                      <CardTitle className="text-center text-gray-700">
-                        {data.title}
-                      </CardTitle>
-                      <p className="text-center text-gray-500 text-sm">
-                        {data.description}
-                      </p>
-                    </CardContent>
-                  </Card>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
-        </div>
-      </div>
-    </section>
-  );
+  return <section>Upcoming Agenda</section>
+  // return (
+  //   <section className="pb-64">
+  //     <div className="container mx-auto py-16 px-4">
+  //       <h2 className="text-2xl md:text-4xl font-extrabold tracking-wider mb-10 text-center text-gray-700 w-2/3 mx-auto">
+  //         For Professionals
+  //       </h2>
+  //       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+  //         {agendaTitles.map((title) => (
+  //           <Card key={title.id} className="">
+  //             <CardHeader>
+  //               <CardTitle className="text-center">{title.title}</CardTitle>
+  //             </CardHeader>
+  //           </Card>
+  //         ))}
+  //       </div>
+  //     </div>
+  //     <div className="relative">
+  //       <h2 className="text-2xl md:text-4xl font-extrabold tracking-wider text-center text-white bg-indigo-950 pt-16 pb-64">
+  //         Upcoming Agenda
+  //       </h2>
+  //       <div className="container mx-auto px-16 left-0 right-0 absolute bottom-0 transform translate-y-1/2">
+  //         <Carousel className="w-full " opts={{ align: "start", loop: true }}>
+  //           <CarouselContent>
+  //             {upcomingAgendaData.map((data) => (
+  //               <CarouselItem
+  //                 key={data.id}
+  //                 className="basis-1/1 md:basis-1/2 lg:basis-1/4"
+  //               >
+  //                 <Card className="p-1 gap-1">
+  //                   <CardHeader className="relative p-1">
+  //                     <img
+  //                       src={data.image}
+  //                       alt=""
+  //                       className="w-full h-40 object-cover rounded-t-lg"
+  //                     />
+  //                     <div className="absolute bottom-6 left-0 right-0 flex items-center justify-center gap-2 text-xs font-semibold">
+  //                       <p className="bg-white text-violet-500 px-2 py-1 rounded-sm">
+  //                         {data.type}
+  //                       </p>
+  //                       <p className="bg-white text-red-500 px-2 py-1 rounded-sm">
+  //                         {data.by}
+  //                       </p>
+  //                     </div>
+  //                   </CardHeader>
+  //                   <CardContent className="pb-4">
+  //                     <CardTitle className="text-center text-gray-700">
+  //                       {data.title}
+  //                     </CardTitle>
+  //                     <p className="text-center text-gray-500 text-sm">
+  //                       {data.description}
+  //                     </p>
+  //                   </CardContent>
+  //                 </Card>
+  //               </CarouselItem>
+  //             ))}
+  //           </CarouselContent>
+  //           <CarouselPrevious />
+  //           <CarouselNext />
+  //         </Carousel>
+  //       </div>
+  //     </div>
+  //   </section>
+  // );
 };
 
 export default UpcomingAgenda;

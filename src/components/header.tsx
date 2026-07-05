@@ -1,14 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import Logo from "./logo";
-import { Button } from "./ui/button";
-import { useState } from "react";
-import { Menu, X } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
+import { Button } from "antd";
 const navItems = [
   {
     id: 1,
@@ -39,9 +31,8 @@ export default function Header() {
           <Logo />
         </Link>
         <NavItems />
-
-        <Link to="/login" className="text-sm hidden md:block">
-          <Button className="rounded-3xl cursor-pointer font-semibold">
+        <Link to="/login">
+          <Button color="purple" variant="solid">
             Log In
           </Button>
         </Link>
@@ -50,33 +41,12 @@ export default function Header() {
   );
 }
 const NavItems = () => {
-  const [isOpen, setIsOpen] = useState(false);
   return (
     <nav>
-      <DropdownMenu onOpenChange={setIsOpen}>
-        <DropdownMenuTrigger asChild className="md:hidden">
-          <Button size="icon">{isOpen ? <X /> : <Menu />}</Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          {navItems.map((item) => (
-          <DropdownMenuItem key={item.id}>
-            <Link to={item.href}>{item.name}</Link>
-          </DropdownMenuItem>
-        ))}
-          <DropdownMenuItem>
-            <Link to="/login" className="w-full">
-              <Button size="sm" className="cursor-pointer font-semibold w-full">
-                Log In
-              </Button>
-            </Link>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-
-      <ul className="hidden md:flex items-center gap-6 text-sm font-semibold text-muted-foreground">
+      <ul className="flex items-center gap-6 text-sm font-semibold text-muted-foreground">
         {navItems.map((item) => (
           <li key={item.id}>
-            <Link to={item.href}>{item.name}</Link>
+            <Link to={item.href}><Button variant="link" color="purple">{item.name}</Button></Link>
           </li>
         ))}
       </ul>

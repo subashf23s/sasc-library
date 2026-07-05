@@ -8,10 +8,10 @@ const Footer = () => {
         <Space orientation="vertical" align="center">
         <Logo/>
         <Typography.Title level={2} className="!text-white text-center">Subscribe for the <br/> Daily updates</Typography.Title>
-        <Space.Compact size="large">
-          <Input placeholder="Enter your email"/>
-          <Button variant="solid" color="purple">Subscribe</Button>
-        </Space.Compact>
+        <Space  size="small" className="!p-2 rounded-full bg-white">
+          <Input size="large" variant="borderless" placeholder="Enter your email" styles={{input:{'--ant-input-active-border-color':'transparent'}}}/>
+          <Button size="large" variant="solid" color="purple" shape="round">Subscribe</Button>
+        </Space>
         </Space>
         <Divider className="bg-gray-900"/>
         <Space align="center">

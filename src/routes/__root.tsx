@@ -43,7 +43,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body>
+      <body className="bg-blue-50">
         <Header />
         {children}
         <Footer />

@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import Logo from "./logo";
-import { Button, Flex } from "antd";
+import { Button, Flex, Typography } from "antd";
 const navItems = [
   {
     id: 1,
@@ -21,7 +21,7 @@ const navItems = [
     id: 4,
     name: "Contributes",
     href: "/contributes",
-  }
+  },
 ];
 export default function Header() {
   return (
@@ -43,9 +43,13 @@ export default function Header() {
 const NavItems = () => {
   return (
     <nav>
-      <Flex justify="center" align="center">
+      <Flex justify="center" align="center" gap={"medium"}>
         {navItems.map((item) => (
-            <Link key={item.id} to={item.href}><Button variant="link" color="purple">{item.name}</Button></Link>
+          <Link key={item.id} to={item.href}>
+            <Typography.Text className="!text-purple-600 !text-base">
+              {item.name}
+            </Typography.Text>
+          </Link>
         ))}
       </Flex>
     </nav>

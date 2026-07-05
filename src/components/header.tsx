@@ -12,29 +12,24 @@ import {
 const navItems = [
   {
     id: 1,
-    name: "Discover",
-    href: "/discover",
+    name: "Home",
+    href: "/",
   },
   {
     id: 2,
-    name: "About us",
-    href: "/about-us",
+    name: "Events & Books",
+    href: "/events-books",
   },
   {
     id: 3,
-    name: "Find a Library",
-    href: "/find-a-library",
+    name: "Community",
+    href: "/community",
   },
   {
     id: 4,
-    name: "Agenda",
-    href: "/agenda",
-  },
-  {
-    id: 5,
-    name: "News",
-    href: "/news",
-  },
+    name: "Contributes",
+    href: "/contributes",
+  }
 ];
 export default function Header() {
   return (
@@ -43,17 +38,6 @@ export default function Header() {
         <Link to="/">
           <Logo />
         </Link>
-
-        {/* <Link
-            to="/books"
-            activeProps={{ className: "text-primary" }}
-            inactiveProps={{
-              className:
-                "text-muted-foreground hover:text-primary transition-colors",
-            }}
-          >
-            Books
-          </Link> */}
         <NavItems />
 
         <Link to="/login" className="text-sm hidden md:block">
@@ -74,21 +58,11 @@ const NavItems = () => {
           <Button size="icon">{isOpen ? <X /> : <Menu />}</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem>
-            <Link to="/discover">Discover</Link>
+          {navItems.map((item) => (
+          <DropdownMenuItem key={item.id}>
+            <Link to={item.href}>{item.name}</Link>
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Link to="/about-us">About Us</Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Link to="/find-a-library">Find a Library</Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Link to="/agenda">Agenda</Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Link to="/news">News</Link>
-          </DropdownMenuItem>
+        ))}
           <DropdownMenuItem>
             <Link to="/login" className="w-full">
               <Button size="sm" className="cursor-pointer font-semibold w-full">

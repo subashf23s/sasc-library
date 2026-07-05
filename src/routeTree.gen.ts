@@ -10,12 +10,10 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignupRouteImport } from './routes/signup'
-import { Route as NewsRouteImport } from './routes/news'
 import { Route as LoginRouteImport } from './routes/login'
-import { Route as FindALibraryRouteImport } from './routes/find-a-library'
-import { Route as DiscoverRouteImport } from './routes/discover'
-import { Route as AgendaRouteImport } from './routes/agenda'
-import { Route as AboutUsRouteImport } from './routes/about-us'
+import { Route as EventsBooksRouteImport } from './routes/events-books'
+import { Route as ContributesRouteImport } from './routes/contributes'
+import { Route as CommunityRouteImport } from './routes/community'
 import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
@@ -30,34 +28,24 @@ const SignupRoute = SignupRouteImport.update({
   path: '/signup',
   getParentRoute: () => rootRouteImport,
 } as any)
-const NewsRoute = NewsRouteImport.update({
-  id: '/news',
-  path: '/news',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
-const FindALibraryRoute = FindALibraryRouteImport.update({
-  id: '/find-a-library',
-  path: '/find-a-library',
+const EventsBooksRoute = EventsBooksRouteImport.update({
+  id: '/events-books',
+  path: '/events-books',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DiscoverRoute = DiscoverRouteImport.update({
-  id: '/discover',
-  path: '/discover',
+const ContributesRoute = ContributesRouteImport.update({
+  id: '/contributes',
+  path: '/contributes',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AgendaRoute = AgendaRouteImport.update({
-  id: '/agenda',
-  path: '/agenda',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AboutUsRoute = AboutUsRouteImport.update({
-  id: '/about-us',
-  path: '/about-us',
+const CommunityRoute = CommunityRouteImport.update({
+  id: '/community',
+  path: '/community',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRouteRoute = DashboardRouteRouteImport.update({
@@ -104,12 +92,10 @@ const BooksBookIdRoute = BooksBookIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
-  '/about-us': typeof AboutUsRoute
-  '/agenda': typeof AgendaRoute
-  '/discover': typeof DiscoverRoute
-  '/find-a-library': typeof FindALibraryRoute
+  '/community': typeof CommunityRoute
+  '/contributes': typeof ContributesRoute
+  '/events-books': typeof EventsBooksRoute
   '/login': typeof LoginRoute
-  '/news': typeof NewsRoute
   '/signup': typeof SignupRoute
   '/books/$bookId': typeof BooksBookIdRoute
   '/dashboard/manage-books': typeof DashboardManageBooksRoute
@@ -120,12 +106,10 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/about-us': typeof AboutUsRoute
-  '/agenda': typeof AgendaRoute
-  '/discover': typeof DiscoverRoute
-  '/find-a-library': typeof FindALibraryRoute
+  '/community': typeof CommunityRoute
+  '/contributes': typeof ContributesRoute
+  '/events-books': typeof EventsBooksRoute
   '/login': typeof LoginRoute
-  '/news': typeof NewsRoute
   '/signup': typeof SignupRoute
   '/books/$bookId': typeof BooksBookIdRoute
   '/dashboard/manage-books': typeof DashboardManageBooksRoute
@@ -138,12 +122,10 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
-  '/about-us': typeof AboutUsRoute
-  '/agenda': typeof AgendaRoute
-  '/discover': typeof DiscoverRoute
-  '/find-a-library': typeof FindALibraryRoute
+  '/community': typeof CommunityRoute
+  '/contributes': typeof ContributesRoute
+  '/events-books': typeof EventsBooksRoute
   '/login': typeof LoginRoute
-  '/news': typeof NewsRoute
   '/signup': typeof SignupRoute
   '/books/$bookId': typeof BooksBookIdRoute
   '/dashboard/manage-books': typeof DashboardManageBooksRoute
@@ -157,12 +139,10 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/dashboard'
-    | '/about-us'
-    | '/agenda'
-    | '/discover'
-    | '/find-a-library'
+    | '/community'
+    | '/contributes'
+    | '/events-books'
     | '/login'
-    | '/news'
     | '/signup'
     | '/books/$bookId'
     | '/dashboard/manage-books'
@@ -173,12 +153,10 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/about-us'
-    | '/agenda'
-    | '/discover'
-    | '/find-a-library'
+    | '/community'
+    | '/contributes'
+    | '/events-books'
     | '/login'
-    | '/news'
     | '/signup'
     | '/books/$bookId'
     | '/dashboard/manage-books'
@@ -190,12 +168,10 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/dashboard'
-    | '/about-us'
-    | '/agenda'
-    | '/discover'
-    | '/find-a-library'
+    | '/community'
+    | '/contributes'
+    | '/events-books'
     | '/login'
-    | '/news'
     | '/signup'
     | '/books/$bookId'
     | '/dashboard/manage-books'
@@ -208,12 +184,10 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
-  AboutUsRoute: typeof AboutUsRoute
-  AgendaRoute: typeof AgendaRoute
-  DiscoverRoute: typeof DiscoverRoute
-  FindALibraryRoute: typeof FindALibraryRoute
+  CommunityRoute: typeof CommunityRoute
+  ContributesRoute: typeof ContributesRoute
+  EventsBooksRoute: typeof EventsBooksRoute
   LoginRoute: typeof LoginRoute
-  NewsRoute: typeof NewsRoute
   SignupRoute: typeof SignupRoute
   BooksBookIdRoute: typeof BooksBookIdRoute
   BooksIndexRoute: typeof BooksIndexRoute
@@ -228,13 +202,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/news': {
-      id: '/news'
-      path: '/news'
-      fullPath: '/news'
-      preLoaderRoute: typeof NewsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -242,32 +209,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/find-a-library': {
-      id: '/find-a-library'
-      path: '/find-a-library'
-      fullPath: '/find-a-library'
-      preLoaderRoute: typeof FindALibraryRouteImport
+    '/events-books': {
+      id: '/events-books'
+      path: '/events-books'
+      fullPath: '/events-books'
+      preLoaderRoute: typeof EventsBooksRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/discover': {
-      id: '/discover'
-      path: '/discover'
-      fullPath: '/discover'
-      preLoaderRoute: typeof DiscoverRouteImport
+    '/contributes': {
+      id: '/contributes'
+      path: '/contributes'
+      fullPath: '/contributes'
+      preLoaderRoute: typeof ContributesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/agenda': {
-      id: '/agenda'
-      path: '/agenda'
-      fullPath: '/agenda'
-      preLoaderRoute: typeof AgendaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/about-us': {
-      id: '/about-us'
-      path: '/about-us'
-      fullPath: '/about-us'
-      preLoaderRoute: typeof AboutUsRouteImport
+    '/community': {
+      id: '/community'
+      path: '/community'
+      fullPath: '/community'
+      preLoaderRoute: typeof CommunityRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -350,12 +310,10 @@ const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRouteRoute: DashboardRouteRouteWithChildren,
-  AboutUsRoute: AboutUsRoute,
-  AgendaRoute: AgendaRoute,
-  DiscoverRoute: DiscoverRoute,
-  FindALibraryRoute: FindALibraryRoute,
+  CommunityRoute: CommunityRoute,
+  ContributesRoute: ContributesRoute,
+  EventsBooksRoute: EventsBooksRoute,
   LoginRoute: LoginRoute,
-  NewsRoute: NewsRoute,
   SignupRoute: SignupRoute,
   BooksBookIdRoute: BooksBookIdRoute,
   BooksIndexRoute: BooksIndexRoute,

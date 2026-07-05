@@ -7,6 +7,7 @@ import WhatIsFor from "@/components/sections/home/what-is-for";
 import RecentBlogs from "@/components/sections/home/recent-blogs";
 import StartBusiness from "@/components/sections/home/start-business";
 import UpcomingAgenda from "@/components/sections/home/upcoming-agenda";
+import Books from "@/components/sections/home/books";
 // import {
 //   Search,
 //   BookOpen,
@@ -23,6 +24,7 @@ function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       <Hero />
+      <Books />
       <ItemsSection />
       <WhatIsFor />
       <UpcomingAgenda />

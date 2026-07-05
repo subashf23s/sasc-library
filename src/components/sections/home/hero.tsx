@@ -1,4 +1,4 @@
-import ParticleSystem from "@/components/particle-system";
+
 import { Button } from "../../ui/button";
 import { Card, CardContent } from "../../ui/card";
 import { Input } from "../../ui/input";
@@ -15,7 +15,6 @@ const Hero = () => {
               particular book?
             </span>
           </h1>
-          <ParticleSystem />
           <Card className="w-full max-w-md bg-gray-200 z-10">
             <CardContent>
               <form action="">
